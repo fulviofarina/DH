@@ -93,8 +93,10 @@ namespace DH
             // arms = new List<DenavitHartenbergNode>();
             string colFilter = this.db.Models.ModelTypeColumn.ColumnName;
             this.modelsBindingSource.Filter = colFilter + " > " + 0;
-
             this.pointEndBS.Filter = colFilter + " < " + 0;
+            this.lastPointBS.Filter = colFilter + " = " + 0;
+        //    this.lastPointBS.Filter += " And COUNT(1)";
+            this.lastPointBS.Sort = this.db.Models.IDColumn.ColumnName + " asc";
 
             ucView = new ucView();
             ucView.Dock = DockStyle.Fill;
@@ -137,7 +139,7 @@ namespace DH
             refreshBtn_Click(sender, e);
 
 
-            timer1.Interval = 40;
+            timer1.Interval = Convert.ToInt32(timeBox.Text);
 
             // timer1.Enabled = true;
         }
@@ -147,11 +149,13 @@ namespace DH
         private void timer1_Tick(object sender, EventArgs e)
         {
             // Let's move some joints to make a "hello" or "help meeee !" gesture !
+            timer1.Enabled = false;
+            timer1.Interval = Convert.ToInt32(timeBox.Text);
 
             this.db.Models.AnimateAs();
 
             refreshBtn_Click(sender, e);
-
+            timer1.Enabled = true;
         }
 
         /*
@@ -221,18 +225,16 @@ namespace DH
 
 
             //compute all nodes
-            DenavitHartenbergNode[] nodes = this.db.Models.ComputeNodes();
+            DenavitHartenbergNode[] nodes = this.db.ComputeNodes();
 
-
-            //link binding sources of FORM
-            setBindingSources();
 
             //draw
             ucView.Draw(nodes);
        
             //calculations in progress
-            setForwardKinematics(nodes);
-
+            this.db.SetFKTransform(nodes);
+            int maxPathCnt = Convert.ToInt32(this.PathCntBox.Text);
+            this.db.FindEndPointToFrame0(EndPointPos.Vector, maxPathCnt);
             //recover this
             //  this.SetDesktopLocation((int)m.x, (int)m.y);
 
@@ -255,37 +257,7 @@ namespace DH
 
         }
 
-        private void setForwardKinematics(DenavitHartenbergNode[] nodes)
-        {
-
-            Matrix4x4 matrix = nodes.First().Model.Transform;
-            bool assigned = false;
-            foreach (DenavitHartenbergNode n in nodes)
-            {
-                if (!assigned)
-                {
-
-                    assigned = true;
-                }
-                else
-                {
-                    matrix = Matrix4x4.Multiply(matrix, n.Model.Transform);
-
-                }
-            }
-
-
-            //position of end-effector on first frame?
-            Vector4 position0 = Matrix4x4.Multiply(matrix, EndPointPos.Vector);
-
-
-            db.ModelsRow m = this.db.Models.MakeAModel(0);
-            m.ModelType = 0;
-            m.x = position0.X;
-            m.y = position0.Y;
-            m.z = position0.Z;
-        }
-
+     
         private void setBindingSources()
         {
             string colFilter;
@@ -328,7 +300,13 @@ namespace DH
              else if (dgv.Equals(this.jointsDataGridView)) currentJoint = v.Row as db.JointsRow;
 
 
-              refreshBtn_Click(sender, e);
+            //link binding sources of FORM
+            setBindingSources();
+
+
+            refreshBtn_Click(sender, e);
+
+
         }
 
 
@@ -344,7 +322,7 @@ namespace DH
             }
             else if (sender == jointBtn)
             {
-                currentJoint =  this.db.Joints.MakeAJoint(currentModel.ID);
+                currentJoint =  this.db.Joints.MakeAJoint(ref currentModel);
                 this.jointsBindingNavigatorSaveItem_Click(sender, e);
                 this.db.Freedom.MakeAFreedom(currentJoint.ID);
                 this.db.Factors.MakeAFactor(currentJoint.ID);
@@ -359,24 +337,22 @@ namespace DH
         private void jointsBindingNavigatorSaveItem_Click(object sender, EventArgs e)
         {
             this.Validate();
-            this.jointsBindingSource.EndEdit();
-            this.modelsBindingSource.EndEdit();
-            this.freedomBindingSource.EndEdit();
-            this.factorsBS.EndEdit();
+
+            IEnumerable<BindingSource> bss = this.Controls.OfType<BindingSource>();
+            foreach(BindingSource bs in bss)
+            {
+                bs.EndEdit();
+            }
             this.tableAdapterManager.UpdateAll(this.db);
 
         }
 
         private void clean_Click(object sender, EventArgs e)
         {
-            IEnumerable<DH.db.ModelsRow> mods = this.db.Models;
 
-            mods = mods.Where(o => !o.IsModelTypeNull() && o.ModelType == 0).ToList() ;
-            foreach(DH.db.ModelsRow m in mods)
-            {
-                m.Delete();
-            }
-         
+            this.db.Models.CleanPath();
+
+
             jointsBindingNavigatorSaveItem_Click(sender, e);
 
             refreshBtn_Click(sender, e);
@@ -384,13 +360,17 @@ namespace DH
 
         private void modelsDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            timer1.Enabled = !timer1.Enabled;
+            if (timer1.Enabled) timer1.Enabled = false;
+          //  timer1.Enabled = !timer1.Enabled;
         }
 
         private void pointEndDGV_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            timer1.Enabled = !timer1.Enabled;
+            if (!timer1.Enabled) timer1.Enabled = true;
+
         }
+
+      
     }
 }
 

@@ -43,13 +43,13 @@ namespace DH
         public partial class JointsRow
         {
             DenavitHartenbergJoint joint;
-
+            private const double factor = Math.PI * 2 / 360;
             public DenavitHartenbergJoint Joint
             {
                 get
                 {
 
-                    joint = new DenavitHartenbergJoint(alpha, theta, r, d);
+                    joint = new DenavitHartenbergJoint(alpha * factor, theta * factor, r, d);
                     return joint;
                 }
 
@@ -62,18 +62,18 @@ namespace DH
         public partial class JointsDataTable
         {
 
-            public DH.db.JointsRow MakeAJoint(int ModelID)
+            public DH.db.JointsRow MakeAJoint(ref ModelsRow m)
             {
                 DH.db.JointsRow j = this.NewJointsRow();
 
 
-                j.ModelID = ModelID;
-                j.Nr = this.Count + 1;
+                j.ModelID = m.ID;
+                j.Nr = m.GetJointsRows().Count() + 1;
                 j.theta = Math.PI / 4;
                 j.alpha = 0;
                 j.r = 35;//is it radius?
                 j.d = 0; //is it offset?
-
+                j.Show = true;
 
 
 
@@ -91,7 +91,7 @@ namespace DH
             DenavitHartenbergModel model;
             DenavitHartenbergNode arm;
             private Vector4 vector;
-
+            /*
             public DenavitHartenbergModel Model
             {
                 get
@@ -104,6 +104,7 @@ namespace DH
                 }
 
             }
+             */
 
             public DenavitHartenbergNode Arm
             {
@@ -117,57 +118,150 @@ namespace DH
                 }
 
             }
-
+           
             public Vector4 Vector
             {
 
                 get
                 {
-                    vector = new Vector4((float)this.x, (float)this.y, (float)this.z, 1);
+                   // vector = new Vector4((float)this.x, (float)this.y, (float)this.z, 1);
                     return vector;
                 }
             }
 
+            public void LinkModel()
+            {
+
+
+                vector = new Vector4((float)this.x, (float)this.y, (float)this.z, 1);
+
+
+                Vector3 v = new Vector3(vector.X, vector.Y, vector.Z);
+                model = new DenavitHartenbergModel(v);
+
+                // = v;
+                // Create the model combinator from the parent model
+                arm = new DenavitHartenbergNode(model);
+
+                //  m.RefreshPosition();
+
+                IEnumerable<DH.db.JointsRow> joints = GetJointsRows().Where(o => o.Show);
+                joints = joints.OrderBy(p => p.Nr).ToList();
+
+                model.Joints.Clear();
+                foreach (DH.db.JointsRow j in joints)
+                {
+                    model.Joints.Add(j.Joint);
+                }
+
+
+            }
 
 
         }
-        public partial class ModelsDataTable
+        public DenavitHartenbergNode[] ComputeNodes()
+        {
+            IEnumerable<ModelsRow> models = this.Models.Rows.OfType<ModelsRow>();
+            IEnumerable<DenavitHartenbergNode> nodes  = models.Where(p=>p.Show).Select(p => p.Arm);
+
+            foreach (DenavitHartenbergNode n in nodes)
+            {
+                n.Compute();
+            }
+            return nodes.ToList().ToArray();
+        }
+        public void SetFKTransform(DenavitHartenbergNode[] nodes)
         {
 
+            Matrix4x4 matrix = nodes.First().Model.Transform;
+            bool assigned = false;
+            foreach (DenavitHartenbergNode n in nodes)
+            {
+                if (!assigned)
+                {
+
+                    assigned = true;
+                }
+                else
+                {
+                    matrix = Matrix4x4.Multiply(n.Model.Transform, matrix);
+
+                }
+            }
+
+
+            transform = matrix;
+
+        }
+
+        private Matrix4x4 transform;
+
+        public void FindEndPointToFrame0(Vector4 endpointPos, int maxPathCnt)
+        {
+            //position of end-effector on first frame?
+            Vector4 position0 = Matrix4x4.Multiply(transform, endpointPos);
+
+            if (this.Models.Count> maxPathCnt)
+            {
+                this.Models.CleanPath();
+            }
+            db.ModelsRow m = this.Models.MakeAModel(0);
+            m.ModelType = 0;
+            m.x = position0.X;
+            m.y = position0.Y;
+            m.z = position0.Z;
+
+
+        }
+
+        public partial class ModelsDataTable
+        {
+            public void CleanPath()
+            {
+
+                IEnumerable<DH.db.ModelsRow> mods = this;
+                mods = mods.Where(o=> o.ModelType == 0).ToList();
+                foreach (DH.db.ModelsRow m in mods)
+                {
+                    m.Delete();
+                }
+
+
+            }
             double angle = 0;                // Angle variable for animation
             public void AnimateAs()
             {
 
-                double factor = 0.001;
-                double fac = (factor * 3600);
-                double fac2 = (factor * 3600);
 
-                foreach (DH.db.ModelsRow m in this)
+                IEnumerable<DH.db.ModelsRow> models = this.Where(p=> p.ModelType>0).Where(p => p.Show).ToList();
+
+                foreach (DH.db.ModelsRow m in models)
                 {
 
-                    IEnumerable<DH.db.JointsRow> joints = m.GetJointsRows();
+               //     if (!m.Show) continue;
+
+                    IEnumerable<DH.db.JointsRow> joints = m.GetJointsRows().Where(p=> p.Show);
 
                     foreach (DH.db.JointsRow j in joints)
                     {
 
-                        
                         angle = j.theta;
                         if (angle > 360 && j.FactorsRow.theta > 0 || angle < 0 && j.FactorsRow.theta < 0) j.FactorsRow.theta = -1 * j.FactorsRow.theta;
-                 //       else if (angle < 0) fac = -1 * fac;
+                        //       else if (angle < 0) fac = -1 * fac;
                         angle += j.FactorsRow.theta;
 
                         if (j.FreedomRow.theta) j.theta = angle;
 
                         angle = j.alpha;
-                        if (angle > 360  && j.FactorsRow.alpha > 0 || angle < 0 && j.FactorsRow.alpha<0) j.FactorsRow.theta = -1 * j.FactorsRow.alpha;
+                        if (angle > 360 && j.FactorsRow.alpha > 0 || angle < 0 && j.FactorsRow.alpha < 0) j.FactorsRow.theta = -1 * j.FactorsRow.alpha;
                         angle += j.FactorsRow.alpha;
 
                         if (j.FreedomRow.alpha) j.alpha = angle;
                         // j.theta = j.alpha = angle;
                         //  j.theta = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
                         //  j.alpha = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
-                        if (j.FreedomRow.d) j.d += j.d * (j.FactorsRow.d);
-                        if (j.FreedomRow.r) j.r += j.r * (j.FactorsRow.r);
+                        if (j.FreedomRow.d) j.d += (j.FactorsRow.d);
+                        if (j.FreedomRow.r) j.r += (j.FactorsRow.r);
                     }
 
                 }
@@ -182,7 +276,7 @@ namespace DH
                 j.z = 0;
 
                 j.ModelType = modelType;
-
+                j.Show = true;
                 this.AddModelsRow(j);
                 return j;
             }
@@ -190,56 +284,17 @@ namespace DH
 
             public void LinkModels()
             {
-                foreach (DataRow r in this)
-                {
-                    ModelsRow m = r as ModelsRow;
-                    LinkModels(ref m);
 
+                IList<DH.db.ModelsRow> models = this.Where(p => p.Show).ToList();
+                int count = models.Count();
+                for (int i = 0; i < count; i++)
+                {
+                    DH.db.ModelsRow m = models[i];
+                    m.LinkModel();
                 }
             }
-            public DenavitHartenbergNode[] ComputeNodes()
-            {
-                IEnumerable<DenavitHartenbergNode> nodes = this.Rows.OfType<ModelsRow>().Select(p => p.Arm);
 
-                foreach (DenavitHartenbergNode n in nodes)
-                {
-                    n.Compute();
-                }
-                return nodes.ToList().ToArray();
-            }
-            public void LinkModels(ref ModelsRow m)
-            {
-
-                //   foreach (ModelsRow m in this)
-                //   {
-
-
-                m.Model = new DenavitHartenbergModel(new Vector3((float)m.x, (float)m.y, (float)m.z));
-
-                // = v;
-                // Create the model combinator from the parent model
-                m.Arm = new DenavitHartenbergNode(m.Model);
-
-                //  m.RefreshPosition();
-
-                IEnumerable<DH.db.JointsRow> joints = m.GetJointsRows();
-                joints = joints.OrderBy(p => p.Nr);
-
-                m.Model.Joints.Clear();
-                foreach (DH.db.JointsRow j in joints)
-                {
-                    m.Model.Joints.Add(j.Joint);
-                }
-
-                // Add the second joint
-                // model.Joints.Add(alpha: 0, theta: -Math.PI / 3, radius: 35, offset: 0);
-
-                //   arm.Compute();
-
-                // Compute the images for displaying on the picture boxes
-
-                //   }
-            }
+        
 
         }
 

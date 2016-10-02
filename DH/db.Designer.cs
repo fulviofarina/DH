@@ -421,6 +421,8 @@ namespace DH {
             
             private global::System.Data.DataColumn columnalpha;
             
+            private global::System.Data.DataColumn columnShow;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public JointsDataTable() {
@@ -520,6 +522,14 @@ namespace DH {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ShowColumn {
+                get {
+                    return this.columnShow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -555,7 +565,7 @@ namespace DH {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public JointsRow AddJointsRow(ModelsRow parentModelsRowByModels_Joints, int Nr, string Name, double theta, double d, double r, double alpha) {
+            public JointsRow AddJointsRow(ModelsRow parentModelsRowByModels_Joints, int Nr, string Name, double theta, double d, double r, double alpha, bool Show) {
                 JointsRow rowJointsRow = ((JointsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -565,7 +575,8 @@ namespace DH {
                         theta,
                         d,
                         r,
-                        alpha};
+                        alpha,
+                        Show};
                 if ((parentModelsRowByModels_Joints != null)) {
                     columnValuesArray[1] = parentModelsRowByModels_Joints[0];
                 }
@@ -606,6 +617,7 @@ namespace DH {
                 this.columnd = base.Columns["d"];
                 this.columnr = base.Columns["r"];
                 this.columnalpha = base.Columns["alpha"];
+                this.columnShow = base.Columns["Show"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -627,6 +639,8 @@ namespace DH {
                 base.Columns.Add(this.columnr);
                 this.columnalpha = new global::System.Data.DataColumn("alpha", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnalpha);
+                this.columnShow = new global::System.Data.DataColumn("Show", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnShow);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID}, true));
                 this.columnID.AutoIncrement = true;
@@ -779,6 +793,8 @@ namespace DH {
             
             private global::System.Data.DataColumn columnz;
             
+            private global::System.Data.DataColumn columnShow;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ModelsDataTable() {
@@ -854,6 +870,14 @@ namespace DH {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ShowColumn {
+                get {
+                    return this.columnShow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -889,14 +913,15 @@ namespace DH {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ModelsRow AddModelsRow(int ModelType, double x, double y, double z) {
+            public ModelsRow AddModelsRow(int ModelType, double x, double y, double z, bool Show) {
                 ModelsRow rowModelsRow = ((ModelsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         ModelType,
                         x,
                         y,
-                        z};
+                        z,
+                        Show};
                 rowModelsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowModelsRow);
                 return rowModelsRow;
@@ -931,6 +956,7 @@ namespace DH {
                 this.columnx = base.Columns["x"];
                 this.columny = base.Columns["y"];
                 this.columnz = base.Columns["z"];
+                this.columnShow = base.Columns["Show"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -946,6 +972,8 @@ namespace DH {
                 base.Columns.Add(this.columny);
                 this.columnz = new global::System.Data.DataColumn("z", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnz);
+                this.columnShow = new global::System.Data.DataColumn("Show", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnShow);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID}, true));
                 this.columnID.AutoIncrement = true;
@@ -1887,6 +1915,22 @@ namespace DH {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Show {
+                get {
+                    try {
+                        return ((bool)(this[this.tableJoints.ShowColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Show\' in table \'Joints\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableJoints.ShowColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ModelsRow ModelsRow {
                 get {
                     return ((ModelsRow)(this.GetParentRow(this.Table.ParentRelations["Models_Joints"])));
@@ -2001,6 +2045,18 @@ namespace DH {
             public void SetalphaNull() {
                 this[this.tableJoints.alphaColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsShowNull() {
+                return this.IsNull(this.tableJoints.ShowColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetShowNull() {
+                this[this.tableJoints.ShowColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -2094,6 +2150,22 @@ namespace DH {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Show {
+                get {
+                    try {
+                        return ((bool)(this[this.tableModels.ShowColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Show\' in table \'Models\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableModels.ShowColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsModelTypeNull() {
                 return this.IsNull(this.tableModels.ModelTypeColumn);
             }
@@ -2138,6 +2210,18 @@ namespace DH {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetzNull() {
                 this[this.tableModels.zColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsShowNull() {
+                return this.IsNull(this.tableModels.ShowColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetShowNull() {
+                this[this.tableModels.ShowColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2707,10 +2791,11 @@ namespace DH.dbTableAdapters {
             tableMapping.ColumnMappings.Add("d", "d");
             tableMapping.ColumnMappings.Add("r", "r");
             tableMapping.ColumnMappings.Add("alpha", "alpha");
+            tableMapping.ColumnMappings.Add("Show", "Show");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [Joints] WHERE (([ID] = @Original_ID) AND ((@IsNull_ModelID = 1 AND [ModelID] IS NULL) OR ([ModelID] = @Original_ModelID)) AND ((@IsNull_Nr = 1 AND [Nr] IS NULL) OR ([Nr] = @Original_Nr)) AND ((@IsNull_Name = 1 AND [Name] IS NULL) OR ([Name] = @Original_Name)) AND ((@IsNull_theta = 1 AND [theta] IS NULL) OR ([theta] = @Original_theta)) AND ((@IsNull_d = 1 AND [d] IS NULL) OR ([d] = @Original_d)) AND ((@IsNull_r = 1 AND [r] IS NULL) OR ([r] = @Original_r)) AND ((@IsNull_alpha = 1 AND [alpha] IS NULL) OR ([alpha] = @Original_alpha)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [Joints] WHERE (([ID] = @Original_ID) AND ((@IsNull_ModelID = 1 AND [ModelID] IS NULL) OR ([ModelID] = @Original_ModelID)) AND ((@IsNull_Nr = 1 AND [Nr] IS NULL) OR ([Nr] = @Original_Nr)) AND ((@IsNull_Name = 1 AND [Name] IS NULL) OR ([Name] = @Original_Name)) AND ((@IsNull_theta = 1 AND [theta] IS NULL) OR ([theta] = @Original_theta)) AND ((@IsNull_d = 1 AND [d] IS NULL) OR ([d] = @Original_d)) AND ((@IsNull_r = 1 AND [r] IS NULL) OR ([r] = @Original_r)) AND ((@IsNull_alpha = 1 AND [alpha] IS NULL) OR ([alpha] = @Original_alpha)) AND ((@IsNull_Show = 1 AND [Show] IS NULL) OR ([Show] = @Original_Show)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ModelID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ModelID", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
@@ -2727,11 +2812,14 @@ namespace DH.dbTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_r", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "r", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_alpha", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "alpha", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_alpha", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "alpha", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Show", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Show", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Joints] ([ModelID], [Nr], [Name], [theta], [d], [r], [alpha]) VALUES" +
-                " (@ModelID, @Nr, @Name, @theta, @d, @r, @alpha);\r\nSELECT ID, ModelID, Nr, Name, " +
-                "theta, d, r, alpha FROM Joints WHERE (ID = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [Joints] ([ModelID], [Nr], [Name], [theta], [d], [r], [alpha], [Show]" +
+                ") VALUES (@ModelID, @Nr, @Name, @theta, @d, @r, @alpha, @Show);\r\nSELECT ID, Mode" +
+                "lID, Nr, Name, theta, d, r, alpha, Show FROM Joints WHERE (ID = SCOPE_IDENTITY()" +
+                ")";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ModelID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ModelID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Nr", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Nr", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -2740,10 +2828,11 @@ namespace DH.dbTableAdapters {
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@d", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "d", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@r", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "r", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@alpha", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "alpha", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Show", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [Joints] SET [ModelID] = @ModelID, [Nr] = @Nr, [Name] = @Name, [theta] = @theta, [d] = @d, [r] = @r, [alpha] = @alpha WHERE (([ID] = @Original_ID) AND ((@IsNull_ModelID = 1 AND [ModelID] IS NULL) OR ([ModelID] = @Original_ModelID)) AND ((@IsNull_Nr = 1 AND [Nr] IS NULL) OR ([Nr] = @Original_Nr)) AND ((@IsNull_Name = 1 AND [Name] IS NULL) OR ([Name] = @Original_Name)) AND ((@IsNull_theta = 1 AND [theta] IS NULL) OR ([theta] = @Original_theta)) AND ((@IsNull_d = 1 AND [d] IS NULL) OR ([d] = @Original_d)) AND ((@IsNull_r = 1 AND [r] IS NULL) OR ([r] = @Original_r)) AND ((@IsNull_alpha = 1 AND [alpha] IS NULL) OR ([alpha] = @Original_alpha)));
-SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [Joints] SET [ModelID] = @ModelID, [Nr] = @Nr, [Name] = @Name, [theta] = @theta, [d] = @d, [r] = @r, [alpha] = @alpha, [Show] = @Show WHERE (([ID] = @Original_ID) AND ((@IsNull_ModelID = 1 AND [ModelID] IS NULL) OR ([ModelID] = @Original_ModelID)) AND ((@IsNull_Nr = 1 AND [Nr] IS NULL) OR ([Nr] = @Original_Nr)) AND ((@IsNull_Name = 1 AND [Name] IS NULL) OR ([Name] = @Original_Name)) AND ((@IsNull_theta = 1 AND [theta] IS NULL) OR ([theta] = @Original_theta)) AND ((@IsNull_d = 1 AND [d] IS NULL) OR ([d] = @Original_d)) AND ((@IsNull_r = 1 AND [r] IS NULL) OR ([r] = @Original_r)) AND ((@IsNull_alpha = 1 AND [alpha] IS NULL) OR ([alpha] = @Original_alpha)) AND ((@IsNull_Show = 1 AND [Show] IS NULL) OR ([Show] = @Original_Show)));
+SELECT ID, ModelID, Nr, Name, theta, d, r, alpha, Show FROM Joints WHERE (ID = @ID)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ModelID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ModelID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Nr", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Nr", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -2752,6 +2841,7 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@d", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "d", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@r", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "r", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@alpha", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "alpha", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Show", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ModelID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ModelID", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ModelID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ModelID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -2767,6 +2857,8 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_r", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "r", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_alpha", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "alpha", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_alpha", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "alpha", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Show", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Show", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -2844,7 +2936,7 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID, global::System.Nullable<int> Original_ModelID, global::System.Nullable<int> Original_Nr, string Original_Name, global::System.Nullable<double> Original_theta, global::System.Nullable<double> Original_d, global::System.Nullable<double> Original_r, global::System.Nullable<double> Original_alpha) {
+        public virtual int Delete(int Original_ID, global::System.Nullable<int> Original_ModelID, global::System.Nullable<int> Original_Nr, string Original_Name, global::System.Nullable<double> Original_theta, global::System.Nullable<double> Original_d, global::System.Nullable<double> Original_r, global::System.Nullable<double> Original_alpha, global::System.Nullable<bool> Original_Show) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID));
             if ((Original_ModelID.HasValue == true)) {
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
@@ -2902,6 +2994,14 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
                 this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[14].Value = global::System.DBNull.Value;
             }
+            if ((Original_Show.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[16].Value = ((bool)(Original_Show.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[16].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2922,7 +3022,7 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(global::System.Nullable<int> ModelID, global::System.Nullable<int> Nr, string Name, global::System.Nullable<double> theta, global::System.Nullable<double> d, global::System.Nullable<double> r, global::System.Nullable<double> alpha) {
+        public virtual int Insert(global::System.Nullable<int> ModelID, global::System.Nullable<int> Nr, string Name, global::System.Nullable<double> theta, global::System.Nullable<double> d, global::System.Nullable<double> r, global::System.Nullable<double> alpha, global::System.Nullable<bool> Show) {
             if ((ModelID.HasValue == true)) {
                 this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ModelID.Value));
             }
@@ -2965,6 +3065,12 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
             else {
                 this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
+            if ((Show.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[7].Value = ((bool)(Show.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2993,6 +3099,7 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
                     global::System.Nullable<double> d, 
                     global::System.Nullable<double> r, 
                     global::System.Nullable<double> alpha, 
+                    global::System.Nullable<bool> Show, 
                     int Original_ID, 
                     global::System.Nullable<int> Original_ModelID, 
                     global::System.Nullable<int> Original_Nr, 
@@ -3001,6 +3108,7 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
                     global::System.Nullable<double> Original_d, 
                     global::System.Nullable<double> Original_r, 
                     global::System.Nullable<double> Original_alpha, 
+                    global::System.Nullable<bool> Original_Show, 
                     int ID) {
             if ((ModelID.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ModelID.Value));
@@ -3044,64 +3152,78 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
             else {
                 this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(Original_ID));
-            if ((Original_ModelID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(Original_ModelID.Value));
+            if ((Show.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((bool)(Show.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(Original_ID));
+            if ((Original_ModelID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(Original_ModelID.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
             }
             if ((Original_Nr.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((int)(Original_Nr.Value));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_Nr.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
             }
             if ((Original_Name == null)) {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((string)(Original_Name));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(Original_Name));
             }
             if ((Original_theta.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((double)(Original_theta.Value));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((double)(Original_theta.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
             }
             if ((Original_d.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((double)(Original_d.Value));
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((double)(Original_d.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[18].Value = global::System.DBNull.Value;
             }
             if ((Original_r.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((double)(Original_r.Value));
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((double)(Original_r.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[19].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[20].Value = global::System.DBNull.Value;
             }
             if ((Original_alpha.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((double)(Original_alpha.Value));
+                this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[22].Value = ((double)(Original_alpha.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[21].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[22].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[22].Value = ((int)(ID));
+            if ((Original_Show.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((bool)(Original_Show.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[24].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[25].Value = ((int)(ID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -3122,8 +3244,25 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<int> ModelID, global::System.Nullable<int> Nr, string Name, global::System.Nullable<double> theta, global::System.Nullable<double> d, global::System.Nullable<double> r, global::System.Nullable<double> alpha, int Original_ID, global::System.Nullable<int> Original_ModelID, global::System.Nullable<int> Original_Nr, string Original_Name, global::System.Nullable<double> Original_theta, global::System.Nullable<double> Original_d, global::System.Nullable<double> Original_r, global::System.Nullable<double> Original_alpha) {
-            return this.Update(ModelID, Nr, Name, theta, d, r, alpha, Original_ID, Original_ModelID, Original_Nr, Original_Name, Original_theta, Original_d, Original_r, Original_alpha, Original_ID);
+        public virtual int Update(
+                    global::System.Nullable<int> ModelID, 
+                    global::System.Nullable<int> Nr, 
+                    string Name, 
+                    global::System.Nullable<double> theta, 
+                    global::System.Nullable<double> d, 
+                    global::System.Nullable<double> r, 
+                    global::System.Nullable<double> alpha, 
+                    global::System.Nullable<bool> Show, 
+                    int Original_ID, 
+                    global::System.Nullable<int> Original_ModelID, 
+                    global::System.Nullable<int> Original_Nr, 
+                    string Original_Name, 
+                    global::System.Nullable<double> Original_theta, 
+                    global::System.Nullable<double> Original_d, 
+                    global::System.Nullable<double> Original_r, 
+                    global::System.Nullable<double> Original_alpha, 
+                    global::System.Nullable<bool> Original_Show) {
+            return this.Update(ModelID, Nr, Name, theta, d, r, alpha, Show, Original_ID, Original_ModelID, Original_Nr, Original_Name, Original_theta, Original_d, Original_r, Original_alpha, Original_Show, Original_ID);
         }
     }
     
@@ -3253,10 +3392,11 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
             tableMapping.ColumnMappings.Add("x", "x");
             tableMapping.ColumnMappings.Add("y", "y");
             tableMapping.ColumnMappings.Add("z", "z");
+            tableMapping.ColumnMappings.Add("Show", "Show");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [Models] WHERE (([ID] = @Original_ID) AND ((@IsNull_ModelType = 1 AND [ModelType] IS NULL) OR ([ModelType] = @Original_ModelType)) AND ((@IsNull_x = 1 AND [x] IS NULL) OR ([x] = @Original_x)) AND ((@IsNull_y = 1 AND [y] IS NULL) OR ([y] = @Original_y)) AND ((@IsNull_z = 1 AND [z] IS NULL) OR ([z] = @Original_z)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [Models] WHERE (([ID] = @Original_ID) AND ((@IsNull_ModelType = 1 AND [ModelType] IS NULL) OR ([ModelType] = @Original_ModelType)) AND ((@IsNull_x = 1 AND [x] IS NULL) OR ([x] = @Original_x)) AND ((@IsNull_y = 1 AND [y] IS NULL) OR ([y] = @Original_y)) AND ((@IsNull_z = 1 AND [z] IS NULL) OR ([z] = @Original_z)) AND ((@IsNull_Show = 1 AND [Show] IS NULL) OR ([Show] = @Original_Show)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ModelType", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ModelType", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
@@ -3267,24 +3407,29 @@ SELECT ID, ModelID, Nr, Name, theta, d, r, alpha FROM Joints WHERE (ID = @ID)";
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_y", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "y", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_z", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "z", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_z", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "z", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Show", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Show", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Models] ([ModelType], [x], [y], [z]) VALUES (@ModelType, @x, @y, @z)" +
-                ";\r\nSELECT ID, ModelType, x, y, z FROM Models WHERE (ID = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [Models] ([ModelType], [x], [y], [z], [Show]) VALUES (@ModelType, @x," +
+                " @y, @z, @Show);\r\nSELECT ID, ModelType, x, y, z, Show FROM Models WHERE (ID = SC" +
+                "OPE_IDENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ModelType", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ModelType", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@x", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "x", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@y", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "y", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@z", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "z", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Show", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [Models] SET [ModelType] = @ModelType, [x] = @x, [y] = @y, [z] = @z WHERE (([ID] = @Original_ID) AND ((@IsNull_ModelType = 1 AND [ModelType] IS NULL) OR ([ModelType] = @Original_ModelType)) AND ((@IsNull_x = 1 AND [x] IS NULL) OR ([x] = @Original_x)) AND ((@IsNull_y = 1 AND [y] IS NULL) OR ([y] = @Original_y)) AND ((@IsNull_z = 1 AND [z] IS NULL) OR ([z] = @Original_z)));
-SELECT ID, ModelType, x, y, z FROM Models WHERE (ID = @ID)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [Models] SET [ModelType] = @ModelType, [x] = @x, [y] = @y, [z] = @z, [Show] = @Show WHERE (([ID] = @Original_ID) AND ((@IsNull_ModelType = 1 AND [ModelType] IS NULL) OR ([ModelType] = @Original_ModelType)) AND ((@IsNull_x = 1 AND [x] IS NULL) OR ([x] = @Original_x)) AND ((@IsNull_y = 1 AND [y] IS NULL) OR ([y] = @Original_y)) AND ((@IsNull_z = 1 AND [z] IS NULL) OR ([z] = @Original_z)) AND ((@IsNull_Show = 1 AND [Show] IS NULL) OR ([Show] = @Original_Show)));
+SELECT ID, ModelType, x, y, z, Show FROM Models WHERE (ID = @ID)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ModelType", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ModelType", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@x", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "x", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@y", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "y", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@z", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "z", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Show", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ModelType", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ModelType", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ModelType", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ModelType", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -3294,6 +3439,8 @@ SELECT ID, ModelType, x, y, z FROM Models WHERE (ID = @ID)";
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_y", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "y", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_z", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "z", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_z", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "z", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Show", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Show", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Show", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -3371,7 +3518,7 @@ SELECT ID, ModelType, x, y, z FROM Models WHERE (ID = @ID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID, global::System.Nullable<int> Original_ModelType, global::System.Nullable<double> Original_x, global::System.Nullable<double> Original_y, global::System.Nullable<double> Original_z) {
+        public virtual int Delete(int Original_ID, global::System.Nullable<int> Original_ModelType, global::System.Nullable<double> Original_x, global::System.Nullable<double> Original_y, global::System.Nullable<double> Original_z, global::System.Nullable<bool> Original_Show) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID));
             if ((Original_ModelType.HasValue == true)) {
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
@@ -3405,6 +3552,14 @@ SELECT ID, ModelType, x, y, z FROM Models WHERE (ID = @ID)";
                 this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[8].Value = global::System.DBNull.Value;
             }
+            if ((Original_Show.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[10].Value = ((bool)(Original_Show.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -3425,7 +3580,7 @@ SELECT ID, ModelType, x, y, z FROM Models WHERE (ID = @ID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(global::System.Nullable<int> ModelType, global::System.Nullable<double> x, global::System.Nullable<double> y, global::System.Nullable<double> z) {
+        public virtual int Insert(global::System.Nullable<int> ModelType, global::System.Nullable<double> x, global::System.Nullable<double> y, global::System.Nullable<double> z, global::System.Nullable<bool> Show) {
             if ((ModelType.HasValue == true)) {
                 this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ModelType.Value));
             }
@@ -3450,6 +3605,12 @@ SELECT ID, ModelType, x, y, z FROM Models WHERE (ID = @ID)";
             else {
                 this.Adapter.InsertCommand.Parameters[3].Value = global::System.DBNull.Value;
             }
+            if ((Show.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[4].Value = ((bool)(Show.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -3470,7 +3631,7 @@ SELECT ID, ModelType, x, y, z FROM Models WHERE (ID = @ID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<int> ModelType, global::System.Nullable<double> x, global::System.Nullable<double> y, global::System.Nullable<double> z, int Original_ID, global::System.Nullable<int> Original_ModelType, global::System.Nullable<double> Original_x, global::System.Nullable<double> Original_y, global::System.Nullable<double> Original_z, int ID) {
+        public virtual int Update(global::System.Nullable<int> ModelType, global::System.Nullable<double> x, global::System.Nullable<double> y, global::System.Nullable<double> z, global::System.Nullable<bool> Show, int Original_ID, global::System.Nullable<int> Original_ModelType, global::System.Nullable<double> Original_x, global::System.Nullable<double> Original_y, global::System.Nullable<double> Original_z, global::System.Nullable<bool> Original_Show, int ID) {
             if ((ModelType.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ModelType.Value));
             }
@@ -3495,40 +3656,54 @@ SELECT ID, ModelType, x, y, z FROM Models WHERE (ID = @ID)";
             else {
                 this.Adapter.UpdateCommand.Parameters[3].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_ID));
-            if ((Original_ModelType.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ModelType.Value));
+            if ((Show.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((bool)(Show.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_ID));
+            if ((Original_ModelType.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(Original_ModelType.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
             if ((Original_x.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((double)(Original_x.Value));
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((double)(Original_x.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
             }
             if ((Original_y.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((double)(Original_y.Value));
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((double)(Original_y.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
             }
             if ((Original_z.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((double)(Original_z.Value));
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((double)(Original_z.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(ID));
+            if ((Original_Show.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((bool)(Original_Show.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[16].Value = ((int)(ID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -3549,8 +3724,8 @@ SELECT ID, ModelType, x, y, z FROM Models WHERE (ID = @ID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<int> ModelType, global::System.Nullable<double> x, global::System.Nullable<double> y, global::System.Nullable<double> z, int Original_ID, global::System.Nullable<int> Original_ModelType, global::System.Nullable<double> Original_x, global::System.Nullable<double> Original_y, global::System.Nullable<double> Original_z) {
-            return this.Update(ModelType, x, y, z, Original_ID, Original_ModelType, Original_x, Original_y, Original_z, Original_ID);
+        public virtual int Update(global::System.Nullable<int> ModelType, global::System.Nullable<double> x, global::System.Nullable<double> y, global::System.Nullable<double> z, global::System.Nullable<bool> Show, int Original_ID, global::System.Nullable<int> Original_ModelType, global::System.Nullable<double> Original_x, global::System.Nullable<double> Original_y, global::System.Nullable<double> Original_z, global::System.Nullable<bool> Original_Show) {
+            return this.Update(ModelType, x, y, z, Show, Original_ID, Original_ModelType, Original_x, Original_y, Original_z, Original_Show, Original_ID);
         }
     }
     

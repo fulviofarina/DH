@@ -17,75 +17,163 @@ namespace DH
     public partial class ucView : UserControl
     {
 
+        IList<PictureBox> pics = new List<PictureBox>();
+        IList<PictureBox> Maxpics = new List<PictureBox>();
 
-        public override void  Refresh()
+        DenavitHartenbergViewer Maxviewer;  // The visualization model
+
+        public void  RefreshPlanes(ref PictureBox box , ref DenavitHartenbergViewer view)
         {
+           
+
+                int plane = (int)box.Tag;
+                if (plane == 1)
+                {
+                    box.Image = view.PlaneXY;
+                }
+                else if (plane == 2)
+                {
+                    box.Image = view.PlaneXZ;
+                }
+                else if (plane == 3)
+                {
+                    box.Image = view.PlaneYZ;
+                box.Image.RotateFlip(RotateFlipType.Rotate90FlipY);
+                }
+            //    box.Tag = plane; //link de index!!!
+
+           
             // Refresh the pictures
-            pictureBox1.Refresh();
-            pictureBox2.Refresh();
-            pictureBox3.Refresh();
-            base.Refresh();
+           
+           // pictureBox3.Refresh();
+           // base.Refresh();
         }
 
-        public void Draw(DenavitHartenbergNode node)
-        {
-          //  node.Compute();
-            viewer.ComputeImages( node);
-         //   viewer.ComputeImages ()
-            this.Refresh();
-        
+     
 
-        }
+        private DenavitHartenbergNode[] currentArray;
         public void Draw(DenavitHartenbergNode[] nodes)
         {
-         
 
-            viewer.ComputeImages(nodes);
-            this.Refresh();
+            currentArray = nodes;
+
+            if (currentArray != null)
+            {
+                if (viewer != null) viewer.ComputeImages(currentArray);
+                if (Maxviewer != null)
+                {
+                    Maxviewer.ComputeImages(currentArray);
+                }
+            }
+
+         
+            for(int i = 0; i<pics.Count; i++)
+            {
+                PictureBox box = pics[i];
+                box.Tag = i+1;
+                this.RefreshPlanes( ref box, ref viewer);
+            }
+            for (int i = 0; i < Maxpics.Count; i++)
+            {
+                PictureBox box = Maxpics[i];
+               // box.Tag = i;
+                this.RefreshPlanes(ref box, ref Maxviewer);
+            }
+
         }
 
         DenavitHartenbergViewer viewer;  // The visualization model
-        void picurePlane(int i)
-        {
-            if (i == 1)
-            {
-                pictureBox1.Image = viewer.PlaneXY;
-            }
-            else if (i == 2)
-            {
-                pictureBox2.Image = viewer.PlaneXZ;
-            }
-            else if (i == 3)
-            {
-                pictureBox3.Image = viewer.PlaneYZ;
-            }
-
-        }
+       
         public ucView()
         {
             InitializeComponent();
 
-            // Create the model visualizer
+            pictureBox1.Tag = 1;
+            pictureBox2.Tag = 2;
+            pictureBox3.Tag = 3;
+            pics.Add(pictureBox1);
+            pics.Add(pictureBox2);
+            pics.Add(pictureBox3);
+
+
             viewer = new DenavitHartenbergViewer(pictureBox1.Width, pictureBox1.Height);
-
             viewer.JointRadius = 5;
+            viewer.Scale = 3;
+            Draw(currentArray);
+            // Create the model visualizer
+            //   viewer = new DenavitHartenbergViewer(pictureBox1.Width, pictureBox1.Height);
+            //   viewer.JointRadius = 3;
             //viewer.JointRadius
-
+            //    RefreshPlanes();
             // Assign each projection image of the model to a picture box
             //  pictureBox1.Image = viewer.PlaneXY;
             //  pictureBox2.Image = viewer.PlaneXZ;
             //  pictureBox3.Image = viewer.PlaneYZ;
 
-            for (int i = 1; i < 4; i++)
-            {
-                picurePlane(i);
-            }
 
 
 
         }
 
+        private void Form_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Form form = sender as Form;
+            PictureBox l = form.Controls[0] as PictureBox;
+            Maxpics.Remove(l);
+            l.Dispose();
+         
+
+          //  tableLayoutPanel1.Controls.Add(l);
+           
+        }
+
+     
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
 
 
+            //  viewer = new DenavitHartenbergViewer(pictureBox1.Width, pictureBox1.Height);
+            //  viewer.JointRadius = 5;
+            PictureBox box = sender as PictureBox;
+            //  box.Dock = DockStyle.Fill;
+
+            PictureBox uno = new PictureBox();
+            uno.SizeMode = PictureBoxSizeMode.AutoSize;
+            uno.Dock = DockStyle.Fill;
+            uno.Tag = box.Tag;
+         
+
+            Form form = new Form();
+            //   form.MaximizeBox = false;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            form.WindowState = FormWindowState.Maximized;
+            form.FormClosing += Form_FormClosing;
+            form.Visible = true;
+
+
+            //  box.SizeMode = PictureBoxSizeMode.AutoSize;
+            //   box.SizeMode = PictureBoxSizeMode.AutoSize;
+            //    UserControl ctrl = new UserControl();
+            //   ctrl.Dock = DockStyle.Fill;
+            //  ctrl.AutoSizeMode = AutoSizeMode.GrowOnly;
+
+            //    box.Size.Height = form.Size.Height - 50;
+            form.Controls.Add(uno);
+            uno.Size = new Size(form.Size.Width - 50, form.Size.Height - 50);
+            //    ctrl.Controls.Add(box);
+            //    box.Size = form.Size;
+            Maxviewer = new DenavitHartenbergViewer(uno.Width, uno.Height );
+            Maxviewer.JointRadius = 5;
+            Maxviewer.Scale = 5;
+            Maxpics.Add(uno);
+
+            //    DenavitHartenbergViewer v=  makeViewer(ref box);
+
+
+
+
+        }
+
+       
     }
 }
