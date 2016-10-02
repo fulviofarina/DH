@@ -44,8 +44,8 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.jointsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.db = new DH.db();
-            this.gripperBtn = new System.Windows.Forms.Button();
             this.jointBtn = new System.Windows.Forms.Button();
+            this.gripperBtn = new System.Windows.Forms.Button();
             this.refreshBtn = new System.Windows.Forms.Button();
             this.jointsTableAdapter = new DH.dbTableAdapters.JointsTableAdapter();
             this.tableAdapterManager = new DH.dbTableAdapters.TableAdapterManager();
@@ -63,6 +63,14 @@
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.jointsBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.sC = new System.Windows.Forms.SplitContainer();
+            this.modelsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.modelsTableAdapter = new DH.dbTableAdapters.ModelsTableAdapter();
+            this.modelsDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.jointsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jointsBindingSource)).BeginInit();
@@ -72,6 +80,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.sC)).BeginInit();
             this.sC.Panel1.SuspendLayout();
             this.sC.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.modelsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modelsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -81,7 +91,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1035, 3);
+            this.button1.Location = new System.Drawing.Point(1050, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(135, 28);
             this.button1.TabIndex = 3;
@@ -96,16 +106,17 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.905371F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.161125F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.93521F));
+            this.tableLayoutPanel1.Controls.Add(this.modelsDataGridView, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.jointsDataGridView, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.jointBtn, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.button1, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.gripperBtn, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.jointBtn, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.gripperBtn, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 407);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.34319F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.65681F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1173, 293);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.09898F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.90102F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1190, 480);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // jointsDataGridView
@@ -123,9 +134,9 @@
             this.dataGridViewTextBoxColumn2});
             this.jointsDataGridView.DataSource = this.jointsBindingSource;
             this.jointsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.jointsDataGridView.Location = new System.Drawing.Point(3, 56);
+            this.jointsDataGridView.Location = new System.Drawing.Point(3, 229);
             this.jointsDataGridView.Name = "jointsDataGridView";
-            this.jointsDataGridView.Size = new System.Drawing.Size(861, 234);
+            this.jointsDataGridView.Size = new System.Drawing.Size(874, 248);
             this.jointsDataGridView.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn1
@@ -188,25 +199,25 @@
             this.db.DataSetName = "db";
             this.db.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // gripperBtn
-            // 
-            this.gripperBtn.Location = new System.Drawing.Point(951, 3);
-            this.gripperBtn.Name = "gripperBtn";
-            this.gripperBtn.Size = new System.Drawing.Size(75, 23);
-            this.gripperBtn.TabIndex = 1;
-            this.gripperBtn.Text = "add gripper";
-            this.gripperBtn.UseVisualStyleBackColor = true;
-            this.gripperBtn.Click += new System.EventHandler(this.gripperBtn_Click);
-            // 
             // jointBtn
             // 
-            this.jointBtn.Location = new System.Drawing.Point(870, 3);
+            this.jointBtn.Location = new System.Drawing.Point(965, 3);
             this.jointBtn.Name = "jointBtn";
             this.jointBtn.Size = new System.Drawing.Size(75, 23);
             this.jointBtn.TabIndex = 0;
             this.jointBtn.Text = "add joint";
             this.jointBtn.UseVisualStyleBackColor = true;
             this.jointBtn.Click += new System.EventHandler(this.jointBtn_Click);
+            // 
+            // gripperBtn
+            // 
+            this.gripperBtn.Location = new System.Drawing.Point(883, 3);
+            this.gripperBtn.Name = "gripperBtn";
+            this.gripperBtn.Size = new System.Drawing.Size(75, 23);
+            this.gripperBtn.TabIndex = 1;
+            this.gripperBtn.Text = "add gripper";
+            this.gripperBtn.UseVisualStyleBackColor = true;
+            this.gripperBtn.Click += new System.EventHandler(this.gripperBtn_Click);
             // 
             // refreshBtn
             // 
@@ -226,6 +237,7 @@
             // 
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.JointsTableAdapter = this.jointsTableAdapter;
+            this.tableAdapterManager.ModelsTableAdapter = null;
             this.tableAdapterManager.UpdateOrder = DH.dbTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
             // 
             // jointsBindingNavigator
@@ -254,7 +266,7 @@
             this.jointsBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.jointsBindingNavigator.Name = "jointsBindingNavigator";
             this.jointsBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.jointsBindingNavigator.Size = new System.Drawing.Size(1197, 25);
+            this.jointsBindingNavigator.Size = new System.Drawing.Size(1202, 25);
             this.jointsBindingNavigator.TabIndex = 6;
             this.jointsBindingNavigator.Text = "bindingNavigator1";
             // 
@@ -364,11 +376,68 @@
             this.sC.SplitterDistance = 124;
             this.sC.TabIndex = 7;
             // 
+            // modelsBindingSource
+            // 
+            this.modelsBindingSource.DataMember = "Models";
+            this.modelsBindingSource.DataSource = this.db;
+            // 
+            // modelsTableAdapter
+            // 
+            this.modelsTableAdapter.ClearBeforeFill = true;
+            // 
+            // modelsDataGridView
+            // 
+            this.modelsDataGridView.AutoGenerateColumns = false;
+            this.modelsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.modelsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn9,
+            this.dataGridViewTextBoxColumn10,
+            this.dataGridViewTextBoxColumn11,
+            this.dataGridViewTextBoxColumn12,
+            this.dataGridViewTextBoxColumn13});
+            this.modelsDataGridView.DataSource = this.modelsBindingSource;
+            this.modelsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.modelsDataGridView.Location = new System.Drawing.Point(3, 3);
+            this.modelsDataGridView.Name = "modelsDataGridView";
+            this.modelsDataGridView.Size = new System.Drawing.Size(874, 220);
+            this.modelsDataGridView.TabIndex = 4;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.DataPropertyName = "ID";
+            this.dataGridViewTextBoxColumn9.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn10
+            // 
+            this.dataGridViewTextBoxColumn10.DataPropertyName = "ModelType";
+            this.dataGridViewTextBoxColumn10.HeaderText = "ModelType";
+            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            // 
+            // dataGridViewTextBoxColumn11
+            // 
+            this.dataGridViewTextBoxColumn11.DataPropertyName = "x";
+            this.dataGridViewTextBoxColumn11.HeaderText = "x";
+            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            // 
+            // dataGridViewTextBoxColumn12
+            // 
+            this.dataGridViewTextBoxColumn12.DataPropertyName = "y";
+            this.dataGridViewTextBoxColumn12.HeaderText = "y";
+            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
+            // 
+            // dataGridViewTextBoxColumn13
+            // 
+            this.dataGridViewTextBoxColumn13.DataPropertyName = "z";
+            this.dataGridViewTextBoxColumn13.HeaderText = "z";
+            this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1197, 700);
+            this.ClientSize = new System.Drawing.Size(1202, 887);
             this.Controls.Add(this.sC);
             this.Controls.Add(this.jointsBindingNavigator);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -386,6 +455,8 @@
             this.sC.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.sC)).EndInit();
             this.sC.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.modelsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modelsDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -425,6 +496,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.Button refreshBtn;
         private System.Windows.Forms.SplitContainer sC;
+        private System.Windows.Forms.BindingSource modelsBindingSource;
+        private dbTableAdapters.ModelsTableAdapter modelsTableAdapter;
+        private System.Windows.Forms.DataGridView modelsDataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
     }
 }
 

@@ -27,7 +27,7 @@ namespace DH
             base.Refresh();
         }
 
-        public void Draw(ref DenavitHartenbergNode node)
+        public void Draw(DenavitHartenbergNode node)
         {
             node.Compute();
             viewer.ComputeImages( node);

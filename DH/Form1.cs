@@ -38,7 +38,9 @@ using System.Windows.Forms;
 using Accord.Controls;
 using Accord.Math.Kinematics;
 using Accord.Math;
-
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 namespace DH
 {
     /// <summary>
@@ -53,14 +55,15 @@ namespace DH
     /// 
     public partial class Form1 : Form
     {
-        DenavitHartenbergModel model;           // The arm base model
+    
         DenavitHartenbergModel model_tgripper;  // The model left gripper
         DenavitHartenbergModel model_bgripper;  // The model right gripper
 
         // The whole arm made of a combination of 
         // the three previously declared models:
         //
-        DenavitHartenbergNode arm;
+     //   IList<DenavitHartenbergModel> models;           // The arm base model
+     //   IList<DenavitHartenbergNode> arms;
 
  
         double angle = 0;                // Angle variable for animation
@@ -74,17 +77,17 @@ namespace DH
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'db.Models' table. You can move, or remove it, as needed.
+            this.modelsTableAdapter.Fill(this.db.Models);
             // TODO: This line of code loads data into the 'db.Joints' table. You can move, or remove it, as needed.
             this.jointsTableAdapter.Fill(this.db.Joints);
 
             // Ok, let's start to build our virtual robot arm !
 
-            model = new DenavitHartenbergModel(new Vector3(0, 0, 0));
+          //  models = new List<DenavitHartenbergModel>();
+           // arms = new List<DenavitHartenbergNode>();
 
-  
-            // Create the model combinator from the parent model
-            arm = new DenavitHartenbergNode(model);
-
+           
 
             ucView = new ucView();
             ucView.Dock = DockStyle.Fill;
@@ -96,6 +99,14 @@ namespace DH
             timer1.Interval = 100;
 
             refreshBtn_Click(sender, e);
+
+
+            if (this.db.Models.Count==0)
+            {
+                this.db.Models.MakeAModel();
+              //  this.db.Models.LinkModels();
+            }
+
             // timer1.Enabled = true;
         }
 
@@ -114,24 +125,45 @@ namespace DH
 
 
         double factor = 0.0001;
-        int m = 0;
-            foreach (DH.db.JointsRow j in this.db.Joints)
+    
+
+
+            foreach (DH.db.ModelsRow m in this.db.Models)
             {
-                angle += (float)Math.PI / 30;
-                j.theta = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
-                j.alpha = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
-                j.d += (j.d * (factor));
-                j.r += j.r * (factor);
 
-                model.Joints[m].Parameters.Theta = j.theta;
-                model.Joints[m].Parameters.Alpha = j.alpha;
-                model.Joints[m].Parameters.Offset = j.d;
-                model.Joints[m].Parameters.Radius = j.r;
+           
 
-               
-                
-                m++;
+                IEnumerable<DH.db.JointsRow> joints = m.GetJointsRows();
+
+
+                foreach (DH.db.JointsRow j in joints)
+                {
+
+                 
+                        angle += (float)Math.PI / 30;
+                        j.theta = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
+                        j.alpha = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
+                        j.d += (j.d * (factor));
+                        j.r += j.r * (factor);
+
+
+                }
+
+
+
+            
+
+
+                // Add the second joint
+                // model.Joints.Add(alpha: 0, theta: -Math.PI / 3, radius: 35, offset: 0);
+
+                //   arm.Compute();
+
+                // Compute the images for displaying on the picture boxes
+
+
             }
+
 
        //     model.Joints[0].Parameters.Theta = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
         //    model.Joints[1].Parameters.Theta = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
@@ -169,39 +201,29 @@ namespace DH
             model_bgripper.Joints.Add(alpha: 0, theta: Math.PI / 3, radius: 20, offset: 0);
 
             // Add the top finger
-            arm.Children.Add(model_tgripper);
+         //   arm.Children.Add(model_tgripper);
 
             // Add the bottom finger
-            arm.Children.Add(model_bgripper);
+        //    arm.Children.Add(model_bgripper);
 
-            // Calculate the whole model (parent model + children models)
-            //  arm.Compute();
+         
 
             refreshBtn_Click(sender, e);
 
 
         }
+     
 
-        void makeAJoint()
-        {
-            DH.db.JointsRow j = this.db.Joints.NewJointsRow();
-
-            j.theta = Math.PI / 4;
-            j.ModelID = 1;
-            j.alpha = 0;
-            j.r = 35;//is it radius?
-            j.d = 0; //is it offset?
-
-
-            this.db.Joints.AddJointsRow(j);
-
-        }
+     
         private void jointBtn_Click(object sender, EventArgs e)
         {
             // Add the first joint 
 
+           DataRowView v =  this.modelsBindingSource.Current as DataRowView;
 
-            makeAJoint();
+            DH.db.ModelsRow m = v.Row as DH.db.ModelsRow;
+
+            this.db.Joints.MakeAJoint(m.ID);
       
 
             refreshBtn_Click(sender,e);
@@ -221,22 +243,15 @@ namespace DH
 
         private void refreshBtn_Click(object sender, EventArgs e)
         {
-            model.Joints.Clear();
 
-            foreach (DH.db.JointsRow j in this.db.Joints)
+            this.db.Models.LinkModels();
+
+            foreach (DH.db.ModelsRow m in this.db.Models)
             {
-                model.Joints.Add(j.alpha, j.theta, j.r, j.d);
+
+                ucView.Draw(m.Arm);
+
             }
-            // Add the second joint
-            // model.Joints.Add(alpha: 0, theta: -Math.PI / 3, radius: 35, offset: 0);
-
-            //   arm.Compute();
-
-            // Compute the images for displaying on the picture boxes
-          
-
-            ucView.Draw(ref arm);
-
 
         }
     }
