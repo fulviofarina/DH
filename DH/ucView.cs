@@ -29,12 +29,21 @@ namespace DH
 
         public void Draw(DenavitHartenbergNode node)
         {
-            node.Compute();
+          //  node.Compute();
             viewer.ComputeImages( node);
+         //   viewer.ComputeImages ()
             this.Refresh();
         
 
         }
+        public void Draw(DenavitHartenbergNode[] nodes)
+        {
+         
+
+            viewer.ComputeImages(nodes);
+            this.Refresh();
+        }
+
         DenavitHartenbergViewer viewer;  // The visualization model
         void picurePlane(int i)
         {
@@ -59,7 +68,7 @@ namespace DH
             // Create the model visualizer
             viewer = new DenavitHartenbergViewer(pictureBox1.Width, pictureBox1.Height);
 
-            viewer.JointRadius = 2;
+            viewer.JointRadius = 5;
             //viewer.JointRadius
 
             // Assign each projection image of the model to a picture box

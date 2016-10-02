@@ -33,20 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord">
-      <HintPath>.\Accord.dll</HintPath>
-    </Reference>
     <Reference Include="Accord.Controls">
       <HintPath>.\Accord.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Accord.MachineLearning">
       <HintPath>.\Accord.MachineLearning.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Math">
-      <HintPath>.\Accord.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Math.Core">
-      <HintPath>.\Accord.Math.Core.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Statistics">
       <HintPath>.\Accord.Statistics.dll</HintPath>
@@ -115,6 +106,7 @@
     <None Include="db.xss">
       <DependentUpon>db.xsd</DependentUpon>
     </None>
+    <None Include="Properties\DataSources\db.FreedomRow.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -127,6 +119,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\framework\Sources\Accord.Core\Accord.Core.csproj">
+      <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
+      <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\framework\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\framework\Sources\Accord.Math\Accord.Math.csproj">
+      <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
+      <Name>Accord.Math</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
