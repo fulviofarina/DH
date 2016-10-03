@@ -12,6 +12,10 @@ namespace DH
 {
     public partial class db
     {
+        /// <summary>
+        /// Obtains an array of images from the stored ImagesRow DataTable images
+        /// </summary>
+        /// <returns>Array of images</returns>
         public IEnumerable<Image> GetImages()
         {
             Func<ImagesRow, Image> conv = o =>
@@ -24,6 +28,12 @@ namespace DH
             return images;
         }
 
+
+        /// <summary>
+        /// Functions to invoke when the max number of Path points have been draw
+        /// in order to save the images into the database
+        ///  </summary>
+        /// <param name="images">images to save</param>
         internal void CheckIteration(ref IEnumerable<object> images)
         {
             // this.Images.Clear();
@@ -56,6 +66,8 @@ namespace DH
 
         private Matrix4x4 transform;
 
+        
+        
         /// <summary>
         /// The basePosition is the chosen
         /// </summary>
@@ -76,6 +88,8 @@ namespace DH
             
         }
 
+
+        #region static utilities
 
         private static byte[] imageToByteArray(Image image)
         {
@@ -99,13 +113,18 @@ namespace DH
             //            return (Image)new ImageConverter().ConvertTo(arr, typeof(Image));
         }
 
+        #endregion
+
         #region MODELS
 
-
-        public DenavitHartenbergNode[] ComputeNodes()
+        /// <summary>
+        /// Recomputes all the nodes asociated to the ModelsTable that have been selected (p.Show)
+        /// </summary>
+        /// <returns></returns>
+        public DenavitHartenbergNode[] ComputeNodes(bool show=true)
         {
             IEnumerable<ModelsRow> models = this.Models.Rows.OfType<ModelsRow>();
-            models = models.Where(p => p.Show);
+            models = models.Where(p => p.Show==show);
             IEnumerable<DenavitHartenbergNode> nodes = models.Select(p => p.Arm);
 
             foreach (DenavitHartenbergNode n in nodes)
@@ -113,6 +132,10 @@ namespace DH
                 n.Compute();
             }
             return nodes.ToList().ToArray();
+
+
+         
+
         }
 
         public void SetFKTFromBaseToEndPoint(DenavitHartenbergNode[] nodes)

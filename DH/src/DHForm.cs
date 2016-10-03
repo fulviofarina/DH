@@ -71,6 +71,8 @@ namespace DH
             InitializeComponent();
         }
 
+
+        #region calledOnce Initializers
         private void MainForm_Load(object sender, EventArgs e)
         {
             ucView = new ucView();
@@ -81,6 +83,9 @@ namespace DH
 
             getCurrentItems(sender, e);
 
+            setDGVItems(sender, e);
+            //  setBindingSources(sender,e);
+
             refreshBtn_Click(sender, e);
 
             timer1.Interval = Convert.ToInt32(timeBox.Text);
@@ -88,6 +93,12 @@ namespace DH
             // timer1.Enabled = true;
         }
 
+
+        /// <summary>
+        /// Makes the first rows that the Database must have to start
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void getCurrentItems(object sender, EventArgs e)
         {
             //find currentModel
@@ -105,24 +116,36 @@ namespace DH
                 this.saveItems(sender, e);
             }
 
+        
+        }
+
+        /// <summary>
+        /// Clicks on the DGV to bring in the CurrenRows to employ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void setDGVItems(object sender, EventArgs e)
+        {
+            //object sender;
             MouseEventArgs mouse = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
             DataGridViewCellMouseEventArgs k = new DataGridViewCellMouseEventArgs(-1, 0, 0, 0, mouse);
             sender = this.modelsDataGridView;
             this.dgv_RowHeaderMouseClick(sender, k);
             sender = this.jointsDataGridView;
             this.dgv_RowHeaderMouseClick(sender, k);
+         //   return sender;
         }
 
+
+        /// <summary>
+        /// Fill the tables with data from the SQL database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fillData(object sender, EventArgs e)
         {
             // Start the animation
-            string colFilter = this.db.Models.ModelTypeColumn.ColumnName;
-            this.modelsBindingSource.Filter = colFilter + " > " + 0;
-            this.pointEndBS.Filter = colFilter + " < " + 0;
-            this.lastPointBS.Filter = colFilter + " = " + 0;
-            //    this.lastPointBS.Filter += " And COUNT(1)";
-            this.lastPointBS.Sort = this.db.Models.IDColumn.ColumnName + " asc";
-
+          
             // TODO: This line of code loads data into the 'db.Models' table. You can move, or remove it, as needed.
             this.modelsTableAdapter.Fill(this.db.Models);
             // TODO: This line of code loads data into the 'db.Joints' table. You can move, or remove it, as needed.
@@ -131,10 +154,25 @@ namespace DH
             this.factorsTableAdapter.Fill(this.db.Factors);
         }
 
+        #endregion
+
+
+
+        /// <summary>
+        /// Establishes all the binginds Sources links
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void setBindingSources(object sender, EventArgs e)
         {
-            string colFilter;
-            int colId;
+            int colId = 0;
+            string colFilter = this.db.Models.ModelTypeColumn.ColumnName;
+            this.modelsBindingSource.Filter = colFilter + " > " + 0;
+            this.pointEndBS.Filter = colFilter + " < " + 0;
+            this.lastPointBS.Filter = colFilter + " = " + 0;
+            //    this.lastPointBS.Filter += " And COUNT(1)";
+            this.lastPointBS.Sort = this.db.Models.IDColumn.ColumnName + " asc";
+
             if (currentModel != null)
             {
                 colFilter = this.db.Joints.ModelIDColumn.ColumnName;
@@ -156,7 +194,13 @@ namespace DH
 
         #region buttons Model/Animate
 
+
         // Pause/Start button
+        /// <summary>
+        /// Button to Animate
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             // Toggle animation
@@ -164,6 +208,12 @@ namespace DH
             timer1.Enabled = !timer1.Enabled;
         }
 
+
+        /// <summary>
+        /// Timer that performs the actual animation when Enambled
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
             // Let's move some joints to make a "hello" or "help meeee !" gesture !
@@ -230,11 +280,17 @@ namespace DH
             refreshBtn_Click(sender, e);
         }
 
+
+        /// <summary>
+        /// Adds a model or a joint
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addBtn_Click(object sender, EventArgs e)
         {
             if (sender == modelBtn)
             {
-                this.db.Models.MakeAModel(1);
+               currentModel = this.db.Models.MakeAModel(1);
             }
             else if (sender == jointBtn)
             {
@@ -245,6 +301,7 @@ namespace DH
             }
             this.saveItems(sender, e);
 
+
             refreshBtn_Click(sender, e);
         }
 
@@ -252,6 +309,11 @@ namespace DH
 
         #region buttons database
 
+        /// <summary>
+        /// Animates the pictures stored in the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cineBtn_Click(object sender, EventArgs e)
         {
             this.imagesTA.Fill(this.db.Images);
@@ -264,6 +326,12 @@ namespace DH
             ucView.DisplayCinema(ref images);
         }
 
+
+        /// <summary>
+        /// cleans the end-point points
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void clean_Click(object sender, EventArgs e)
         {
             this.db.CleanPath();
@@ -273,6 +341,12 @@ namespace DH
             refreshBtn_Click(sender, e);
         }
 
+
+        /// <summary>
+        /// refreshes the nodes and images
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void refreshBtn_Click(object sender, EventArgs e)
         {
             //create models based on the tables
@@ -280,7 +354,7 @@ namespace DH
 
             //compute all nodes
             nodes = this.db.ComputeNodes();
-
+            
             //draw
             ucView.Draw(nodes);
 
@@ -300,6 +374,12 @@ namespace DH
             //   ucView.Draw(currentModel.Arm);
         }
 
+
+        /// <summary>
+        /// saves data into the SQL database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveItems(object sender, EventArgs e)
         {
             this.Validate();
@@ -316,12 +396,22 @@ namespace DH
 
         #region DGV
 
+        /// <summary>
+        /// Stop the animation when editing the cells
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             if (timer1.Enabled) timer1.Enabled = false;
             //  timer1.Enabled = !timer1.Enabled;
         }
 
+        /// <summary>
+        /// DGV seleccion of currentRows
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgv_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dgv = sender as DataGridView;
@@ -341,6 +431,12 @@ namespace DH
             refreshBtn_Click(sender, e);
         }
 
+
+        /// <summary>
+        /// Resume the animation when finished editing the cell
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgv_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (!timer1.Enabled) timer1.Enabled = true;

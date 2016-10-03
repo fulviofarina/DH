@@ -64,6 +64,14 @@ namespace DH
 
         public partial class ModelsDataTable
         {
+            /// <summary>
+            /// Makes a ModelRow base on the ModelType
+            /// Type =  0 = EndPosition
+            /// Type = -1 = BasePosition
+            /// Type = 1 = A DH Model
+            /// </summary>
+            /// <param name="modelType">The ModelType to associate</param>
+            /// <returns></returns>
             public DH.db.ModelsRow MakeAModel(int modelType)
             {
                 DH.db.ModelsRow j = this.NewModelsRow();
