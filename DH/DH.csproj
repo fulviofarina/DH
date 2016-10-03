@@ -58,14 +58,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="db.cs">
-      <DependentUpon>db.xsd</DependentUpon>
-    </Compile>
     <Compile Include="db.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>db.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Functions.cs" />
+    <Compile Include="Tables.cs" />
     <Compile Include="src\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

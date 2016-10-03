@@ -106,7 +106,7 @@ namespace DH
 
         DenavitHartenbergViewer viewer;  // The visualization model
        
-        public void DisplayCinema(ref IList<Image> images)
+        public void DisplayCinema(ref IEnumerable<object> images)
         {
 
             foreach(Image i in images)

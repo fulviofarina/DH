@@ -156,8 +156,7 @@ namespace DH
             this.jointsTableAdapter.Fill(this.db.Joints);
             this.factorsTableAdapter.Fill(this.db.Factors);
 
-            this.imagesTA.Fill(this.db.Images);
-
+          
 
 
         }
@@ -169,7 +168,7 @@ namespace DH
             timer1.Enabled = false;
             timer1.Interval = Convert.ToInt32(timeBox.Text);
 
-            this.db.Models.AnimateAs();
+            this.db.AnimateAs();
 
             refreshBtn_Click(sender, e);
             timer1.Enabled = true;
@@ -376,7 +375,7 @@ namespace DH
         {
             this.Validate();
 
-            IEnumerable<BindingSource> bss = this.Controls.OfType<BindingSource>();
+            IEnumerable<object> bss = this.Controls.OfType<BindingSource>();
             foreach(BindingSource bs in bss)
             {
                 bs.EndEdit();
@@ -389,7 +388,7 @@ namespace DH
         private void clean_Click(object sender, EventArgs e)
         {
 
-            this.db.Models.CleanPath();
+            this.db.CleanPath();
 
 
             jointsBindingNavigatorSaveItem_Click(sender, e);
@@ -411,17 +410,13 @@ namespace DH
 
         private void cineBtn_Click(object sender, EventArgs e)
         {
+            this.imagesTA.Fill(this.db.Images);
+
             //GET AN AARAY OF IMAGES
-            images = new List<System.Drawing.Image>();
-
-            foreach (DH.db.ImagesRow r in this.db.Images)
-            {
-                System.Drawing.Image img = DH.db.byteArrayToImg(r.PlaneXY);
-                images.Add(img);
+            // images = new List<System.Drawing.Image>();
 
 
-
-            }
+            IEnumerable<object> images = this.db.GetImages();
             //DISPLAY MOVIES
             ucView.DisplayCinema(ref images);
         }
