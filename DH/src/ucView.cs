@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
+
 using Accord.Controls;
 using Accord.Math.Kinematics;
 
@@ -21,7 +22,26 @@ namespace DH
         IList<PictureBox> Maxpics = new List<PictureBox>();
 
         DenavitHartenbergViewer Maxviewer;  // The visualization model
+        public List<Image>  SavePics()
+        {
 
+            string filepath = Application.ExecutablePath;
+            List<Image> imgs = new List<Image>();
+            foreach (PictureBox p in pics)
+            {
+
+                imgs.Add(p.Image);
+                p.Image.Save(filepath + "." + p.Tag + ".jpg");
+
+
+                //  p.Image.SaveAdd(new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.ChrominanceTable));
+
+            }
+              
+       
+
+            return imgs;
+        }
         public void  RefreshPlanes(ref PictureBox box , ref DenavitHartenbergViewer view)
         {
            
@@ -86,6 +106,23 @@ namespace DH
 
         DenavitHartenbergViewer viewer;  // The visualization model
        
+        public void DisplayCinema(ref IList<Image> images)
+        {
+
+            foreach(Image i in images)
+            {
+                DateTime ahora = DateTime.Now;
+                pictureBox1.Image = i;
+                Application.DoEvents();
+                while(DateTime.Now.Subtract(ahora).TotalSeconds<1)
+                {
+
+                }
+                pictureBox1.Refresh();
+            }
+
+
+        }
         public ucView()
         {
             InitializeComponent();

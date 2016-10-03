@@ -70,9 +70,9 @@ namespace DH
         //   IList<DenavitHartenbergNode> arms;
 
 
-   
+        IList<System.Drawing.Image> images = null;
 
-        ucView ucView=null;
+            ucView ucView=null;
 
         public Form1()
         {
@@ -84,57 +84,27 @@ namespace DH
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'db.Images' table. You can move, or remove it, as needed.
+           // this.imagesTA.Fill(this.db.Images);
             // TODO: This line of code loads data into the 'db.Factors' table. You can move, or remove it, as needed.
-           // TODO: This line of code loads data into the 'db.Freedom' table. You can move, or remove it, as needed.
+            // TODO: This line of code loads data into the 'db.Freedom' table. You can move, or remove it, as needed.
 
             // Ok, let's start to build our virtual robot arm !
 
             //  models = new List<DenavitHartenbergModel>();
             // arms = new List<DenavitHartenbergNode>();
-            string colFilter = this.db.Models.ModelTypeColumn.ColumnName;
-            this.modelsBindingSource.Filter = colFilter + " > " + 0;
-            this.pointEndBS.Filter = colFilter + " < " + 0;
-            this.lastPointBS.Filter = colFilter + " = " + 0;
-        //    this.lastPointBS.Filter += " And COUNT(1)";
-            this.lastPointBS.Sort = this.db.Models.IDColumn.ColumnName + " asc";
 
             ucView = new ucView();
             ucView.Dock = DockStyle.Fill;
             sC.Panel2.Controls.Add(ucView);
 
-
-            // Start the animation
-
-            // TODO: This line of code loads data into the 'db.Models' table. You can move, or remove it, as needed.
-            this.modelsTableAdapter.Fill(this.db.Models);
-            // TODO: This line of code loads data into the 'db.Joints' table. You can move, or remove it, as needed.
-            this.freedomTableAdapter.Fill(this.db.Freedom);
-            this.jointsTableAdapter.Fill(this.db.Joints);
-            this.factorsTableAdapter.Fill(this.db.Factors);
+            fillData();
 
 
-            //find currentModel
-            if (this.db.Models.Count == 0)
-            {
-                currentModel = this.db.Models.MakeAModel(1);
-                this.jointsBindingNavigatorSaveItem_Click(sender, e);
-            }
-            else  currentModel = this.db.Models.FirstOrDefault();
 
-            //findCurrentJoint
-            if (this.db.Joints.Count != 0 && currentModel!=null)
-            {
-                currentJoint = this.currentModel.GetJointsRows().FirstOrDefault();
-            }
-           
-            //find current EndPointPosition
-            basePosition = this.db.Models.FirstOrDefault(o => o.ModelType == -1);
-            if (basePosition == null)
-            {
-                basePosition = this.db.Models.MakeAModel(-1);
-                this.jointsBindingNavigatorSaveItem_Click(sender, e);
-            }
+         
 
+            getCurrentItems(sender, e);
 
             refreshBtn_Click(sender, e);
 
@@ -144,7 +114,54 @@ namespace DH
             // timer1.Enabled = true;
         }
 
-    
+        private void getCurrentItems(object sender, EventArgs e)
+        {
+            //find currentModel
+            if (this.db.Models.Count == 0)
+            {
+                currentModel = this.db.Models.MakeAModel(1);
+                this.jointsBindingNavigatorSaveItem_Click(sender, e);
+            }
+            else currentModel = this.db.Models.FirstOrDefault();
+
+            //findCurrentJoint
+            if (this.db.Joints.Count != 0 && currentModel != null)
+            {
+                currentJoint = this.currentModel.GetJointsRows().FirstOrDefault();
+            }
+
+            //find current EndPointPosition
+            basePosition = this.db.Models.FirstOrDefault(o => o.ModelType == -1);
+            if (basePosition == null)
+            {
+                basePosition = this.db.Models.MakeAModel(-1);
+                this.jointsBindingNavigatorSaveItem_Click(sender, e);
+            }
+        }
+
+        private void fillData()
+        {
+            // Start the animation
+            string colFilter = this.db.Models.ModelTypeColumn.ColumnName;
+            this.modelsBindingSource.Filter = colFilter + " > " + 0;
+            this.pointEndBS.Filter = colFilter + " < " + 0;
+            this.lastPointBS.Filter = colFilter + " = " + 0;
+            //    this.lastPointBS.Filter += " And COUNT(1)";
+            this.lastPointBS.Sort = this.db.Models.IDColumn.ColumnName + " asc";
+
+            // TODO: This line of code loads data into the 'db.Models' table. You can move, or remove it, as needed.
+            this.modelsTableAdapter.Fill(this.db.Models);
+            // TODO: This line of code loads data into the 'db.Joints' table. You can move, or remove it, as needed.
+            this.freedomTableAdapter.Fill(this.db.Freedom);
+            this.jointsTableAdapter.Fill(this.db.Joints);
+            this.factorsTableAdapter.Fill(this.db.Factors);
+
+            this.imagesTA.Fill(this.db.Images);
+
+
+
+        }
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -237,14 +254,24 @@ namespace DH
             {
                 this.db.SetFKTFromBaseToEndPoint(nodes);
                 int maxPathCnt = Convert.ToInt32(this.PathCntBox.Text);
-                this.db.FindEndPosition(basePosition.Vector, maxPathCnt);
+                this.db.FindEndPosition(basePosition.Vector);
+
+                List<System.Drawing.Image> imgs = ucView.SavePics();
+                bool toSaveCheckPoint = this.db.CheckIteration(ref imgs, maxPathCnt);
+                if (toSaveCheckPoint)
+                {
+                    jointsBindingNavigatorSaveItem_Click(sender, e);
+                 
+                }
+               
             }
             catch (Exception)
             {
 
                 
             }
-       
+
+         
             //recover this
             //  this.SetDesktopLocation((int)m.x, (int)m.y);
 
@@ -355,6 +382,7 @@ namespace DH
                 bs.EndEdit();
             }
             this.tableAdapterManager.UpdateAll(this.db);
+            this.db.Images.Clear();
 
         }
 
@@ -381,7 +409,22 @@ namespace DH
 
         }
 
-      
+        private void cineBtn_Click(object sender, EventArgs e)
+        {
+            //GET AN AARAY OF IMAGES
+            images = new List<System.Drawing.Image>();
+
+            foreach (DH.db.ImagesRow r in this.db.Images)
+            {
+                System.Drawing.Image img = DH.db.byteArrayToImg(r.PlaneXY);
+                images.Add(img);
+
+
+
+            }
+            //DISPLAY MOVIES
+            ucView.DisplayCinema(ref images);
+        }
     }
 }
 

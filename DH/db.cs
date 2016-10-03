@@ -6,6 +6,10 @@ using Accord.Math;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.IO;
+using System.Drawing;
+using System.Text;
+
 namespace DH
 {
 
@@ -202,15 +206,12 @@ namespace DH
         /// </summary>
         /// <param name="basePosition"></param>
         /// <param name="maxPathCnt"></param>
-        public void FindEndPosition(Vector4 basePosition, int maxPathCnt)
+        public void FindEndPosition(Vector4 basePosition)
         {
             //position of end-effector on first frame?
             Vector4 position0 = Matrix4x4.Multiply(transform, basePosition);
 
-            if (this.Models.Count > maxPathCnt)
-            {
-                this.Models.CleanPath();
-            }
+
 
             //ENDEFFECTORPOSITION IS THIS ONE
             db.ModelsRow m = this.Models.MakeAModel(0);
@@ -262,7 +263,7 @@ namespace DH
                         if (j.FreedomRow.theta) j.theta = angle;
 
                         angle = j.alpha;
-                        if (angle > 360 && j.FactorsRow.alpha > 0 || angle < 0 && j.FactorsRow.alpha < 0) j.FactorsRow.theta = -1 * j.FactorsRow.alpha;
+                        if (angle > 360 && j.FactorsRow.alpha > 0 || angle < 0 && j.FactorsRow.alpha < 0) j.FactorsRow.alpha = -1 * j.FactorsRow.alpha;
                         angle += j.FactorsRow.alpha;
 
                         if (j.FreedomRow.alpha) j.alpha = angle;
@@ -306,6 +307,62 @@ namespace DH
 
 
         }
+        public static byte[] imageToByteArray(System.Drawing.Image image)
+        {
+            // MemoryStream ms = new MemoryStream();
 
+            // image.Save(ms, image.RawFormat);
+            // return ms.ToArray();
+
+
+            return (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+
+        }
+        public static System.Drawing.Image byteArrayToImg(byte[] arr)
+        {
+            // MemoryStream ms = new MemoryStream();
+
+            // System.Drawing.Image image;
+            // image.Save(ms, image.RawFormat);
+            // return ms.ToArray();
+            return (Bitmap)((new ImageConverter()).ConvertFrom(arr));
+
+            //            return (Image)new ImageConverter().ConvertTo(arr, typeof(Image));
+
+        }
+        internal bool CheckIteration(ref List<System.Drawing.Image> imgs, int maxPathCnt)
+        {
+            if (this.Models.Where(o => o.ModelType == 0).Count() > maxPathCnt)
+            {
+                // this.Images.Clear();
+                // foreach (System.Drawing.Image i in imgs)
+                {
+                    Application.DoEvents();
+                    ImagesRow r = this.Images.NewImagesRow();
+                    this.Images.AddImagesRow(r);
+
+                    r.PlaneXY = imageToByteArray(imgs[0]); //.Clone().To<byte[]>();
+                    Application.DoEvents();
+                    r.PlaneXZ = imageToByteArray(imgs[1]);
+                    Application.DoEvents();
+                    r.PlaneYZ = imageToByteArray(imgs[2]);
+                    Application.DoEvents();
+
+                    byte[] prueba = Encoding.ASCII.GetBytes(this.GetXml());// ConvertTo( this.GetXml(), typeof(byte[]));
+                    Application.DoEvents();
+                    Application.DoEvents();
+                    r.FinalDH = prueba;
+                    // byte[] toBytes = Encoding.ASCII.GetBytes(somestring);
+                    //string something = Encoding.ASCII.GetString(toBytes);
+                    //  p.Image.SaveAdd(new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.ChrominanceTable));
+
+                }
+
+                this.Models.CleanPath();
+
+                return true;
+            }
+            else return false;
+        }
     }
 }
