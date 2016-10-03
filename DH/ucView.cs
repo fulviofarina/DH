@@ -37,9 +37,11 @@ namespace DH
                 }
                 else if (plane == 3)
                 {
-                    box.Image = view.PlaneYZ;
-                box.Image.RotateFlip(RotateFlipType.Rotate90FlipY);
-                }
+              //  Image img = view.PlaneYZ;
+              //  img.RotateFlip(RotateFlipType.Rotate90FlipY);
+                box.Image = view.PlaneXY;
+
+            }
             //    box.Tag = plane; //link de index!!!
 
            
@@ -91,14 +93,23 @@ namespace DH
             pictureBox1.Tag = 1;
             pictureBox2.Tag = 2;
             pictureBox3.Tag = 3;
+      
             pics.Add(pictureBox1);
             pics.Add(pictureBox2);
             pics.Add(pictureBox3);
 
 
             viewer = new DenavitHartenbergViewer(pictureBox1.Width, pictureBox1.Height);
-            viewer.JointRadius = 5;
-            viewer.Scale = 3;
+            viewer.BackColor = Color.LightGray;
+            viewer.JointsColor = Color.GreenYellow;
+            viewer.EndJointColor = Color.Tomato;
+            viewer.BaseJointColor = Color.Black;
+            viewer.ArrowsBoundingBox = new Rectangle(20,20, 25, 25);
+           
+            viewer.LinksColor = Color.Tomato;
+            //viewer.
+            viewer.JointRadius = 10;
+            viewer.Scale = 10;
             Draw(currentArray);
             // Create the model visualizer
             //   viewer = new DenavitHartenbergViewer(pictureBox1.Width, pictureBox1.Height);

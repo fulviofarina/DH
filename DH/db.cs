@@ -162,7 +162,8 @@ namespace DH
         public DenavitHartenbergNode[] ComputeNodes()
         {
             IEnumerable<ModelsRow> models = this.Models.Rows.OfType<ModelsRow>();
-            IEnumerable<DenavitHartenbergNode> nodes  = models.Where(p=>p.Show).Select(p => p.Arm);
+            models = models.Where(p => p.Show);
+            IEnumerable<DenavitHartenbergNode> nodes =models.Select(p => p.Arm);
 
             foreach (DenavitHartenbergNode n in nodes)
             {
@@ -170,7 +171,7 @@ namespace DH
             }
             return nodes.ToList().ToArray();
         }
-        public void SetFKTransform(DenavitHartenbergNode[] nodes)
+        public void SetFKTFromBaseToEndPoint(DenavitHartenbergNode[] nodes)
         {
 
             Matrix4x4 matrix = nodes.First().Model.Transform;
@@ -184,7 +185,7 @@ namespace DH
                 }
                 else
                 {
-                    matrix = Matrix4x4.Multiply(n.Model.Transform, matrix);
+                    matrix = Matrix4x4.Multiply( matrix, n.Model.Transform);
 
                 }
             }
@@ -196,15 +197,22 @@ namespace DH
 
         private Matrix4x4 transform;
 
-        public void FindEndPointToFrame0(Vector4 endpointPos, int maxPathCnt)
+        /// <summary>
+        /// The basePosition is the chosen
+        /// </summary>
+        /// <param name="basePosition"></param>
+        /// <param name="maxPathCnt"></param>
+        public void FindEndPosition(Vector4 basePosition, int maxPathCnt)
         {
             //position of end-effector on first frame?
-            Vector4 position0 = Matrix4x4.Multiply(transform, endpointPos);
+            Vector4 position0 = Matrix4x4.Multiply(transform, basePosition);
 
             if (this.Models.Count> maxPathCnt)
             {
                 this.Models.CleanPath();
             }
+
+            //ENDEFFECTORPOSITION IS THIS ONE
             db.ModelsRow m = this.Models.MakeAModel(0);
             m.ModelType = 0;
             m.x = position0.X;
@@ -224,8 +232,9 @@ namespace DH
                 foreach (DH.db.ModelsRow m in mods)
                 {
                     m.Delete();
+                 //   m.AcceptChanges();
                 }
-
+                  this.AcceptChanges();
 
             }
             double angle = 0;                // Angle variable for animation

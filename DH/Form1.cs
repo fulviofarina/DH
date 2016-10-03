@@ -59,7 +59,7 @@ namespace DH
         DenavitHartenbergModel model_tgripper;  // The model left gripper
         DenavitHartenbergModel model_bgripper;  // The model right gripper
         private DH.db.ModelsRow currentModel = null;
-        private DH.db.ModelsRow EndPointPos = null;
+        private DH.db.ModelsRow basePosition = null;
         private DH.db.JointsRow currentJoint = null;
 
 
@@ -128,10 +128,10 @@ namespace DH
             }
            
             //find current EndPointPosition
-            EndPointPos = this.db.Models.FirstOrDefault(o => o.ModelType == -1);
-            if (EndPointPos == null)
+            basePosition = this.db.Models.FirstOrDefault(o => o.ModelType == -1);
+            if (basePosition == null)
             {
-                EndPointPos = this.db.Models.MakeAModel(-1);
+                basePosition = this.db.Models.MakeAModel(-1);
                 this.jointsBindingNavigatorSaveItem_Click(sender, e);
             }
 
@@ -176,6 +176,7 @@ namespace DH
         private void button1_Click(object sender, EventArgs e)
         {
             // Toggle animation
+            jointsBindingNavigatorSaveItem_Click(sender, e);
             timer1.Enabled = !timer1.Enabled;
         }
 
@@ -232,9 +233,9 @@ namespace DH
             ucView.Draw(nodes);
        
             //calculations in progress
-            this.db.SetFKTransform(nodes);
+            this.db.SetFKTFromBaseToEndPoint(nodes);
             int maxPathCnt = Convert.ToInt32(this.PathCntBox.Text);
-            this.db.FindEndPointToFrame0(EndPointPos.Vector, maxPathCnt);
+            this.db.FindEndPosition(basePosition.Vector, maxPathCnt);
             //recover this
             //  this.SetDesktopLocation((int)m.x, (int)m.y);
 
@@ -267,6 +268,7 @@ namespace DH
                 colFilter = this.db.Joints.ModelIDColumn.ColumnName;
                 colId = currentModel.ID;
                 this.jointsBindingSource.Filter = colFilter + " = " + colId;
+                this.jointsBindingSource.Sort = this.db.Joints.NrColumn.ColumnName + " asc";
 
             }
             if (currentJoint != null)
