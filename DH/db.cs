@@ -118,13 +118,13 @@ namespace DH
                 }
 
             }
-           
+
             public Vector4 Vector
             {
 
                 get
                 {
-                   // vector = new Vector4((float)this.x, (float)this.y, (float)this.z, 1);
+                    // vector = new Vector4((float)this.x, (float)this.y, (float)this.z, 1);
                     return vector;
                 }
             }
@@ -163,7 +163,7 @@ namespace DH
         {
             IEnumerable<ModelsRow> models = this.Models.Rows.OfType<ModelsRow>();
             models = models.Where(p => p.Show);
-            IEnumerable<DenavitHartenbergNode> nodes =models.Select(p => p.Arm);
+            IEnumerable<DenavitHartenbergNode> nodes = models.Select(p => p.Arm);
 
             foreach (DenavitHartenbergNode n in nodes)
             {
@@ -185,7 +185,7 @@ namespace DH
                 }
                 else
                 {
-                    matrix = Matrix4x4.Multiply( matrix, n.Model.Transform);
+                    matrix = Matrix4x4.Multiply(matrix, n.Model.Transform);
 
                 }
             }
@@ -207,7 +207,7 @@ namespace DH
             //position of end-effector on first frame?
             Vector4 position0 = Matrix4x4.Multiply(transform, basePosition);
 
-            if (this.Models.Count> maxPathCnt)
+            if (this.Models.Count > maxPathCnt)
             {
                 this.Models.CleanPath();
             }
@@ -228,13 +228,13 @@ namespace DH
             {
 
                 IEnumerable<DH.db.ModelsRow> mods = this;
-                mods = mods.Where(o=> o.ModelType == 0).ToList();
+                mods = mods.Where(o => o.ModelType == 0).ToList();
                 foreach (DH.db.ModelsRow m in mods)
                 {
                     m.Delete();
-                 //   m.AcceptChanges();
+                    //   m.AcceptChanges();
                 }
-                  this.AcceptChanges();
+                this.AcceptChanges();
 
             }
             double angle = 0;                // Angle variable for animation
@@ -242,14 +242,14 @@ namespace DH
             {
 
 
-                IEnumerable<DH.db.ModelsRow> models = this.Where(p=> p.ModelType>0).Where(p => p.Show).ToList();
+                IEnumerable<DH.db.ModelsRow> models = this.Where(p => p.ModelType > 0).Where(p => p.Show).ToList();
 
                 foreach (DH.db.ModelsRow m in models)
                 {
 
-               //     if (!m.Show) continue;
+                    //     if (!m.Show) continue;
 
-                    IEnumerable<DH.db.JointsRow> joints = m.GetJointsRows().Where(p=> p.Show);
+                    IEnumerable<DH.db.JointsRow> joints = m.GetJointsRows().Where(p => p.Show);
 
                     foreach (DH.db.JointsRow j in joints)
                     {
@@ -303,7 +303,7 @@ namespace DH
                 }
             }
 
-        
+
 
         }
 
