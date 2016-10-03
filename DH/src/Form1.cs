@@ -101,13 +101,6 @@ namespace DH
                 currentModel = this.db.Models.MakeAModel(1);
                 this.saveItems(sender, e);
             }
-            else currentModel = this.db.Models.FirstOrDefault();
-
-            //findCurrentJoint
-            if (this.db.Joints.Count != 0 && currentModel != null)
-            {
-                currentJoint = this.currentModel.GetJointsRows().FirstOrDefault();
-            }
 
             //find current EndPointPosition
             basePosition = this.db.Models.FirstOrDefault(o => o.ModelType == -1);
@@ -116,6 +109,14 @@ namespace DH
                 basePosition = this.db.Models.MakeAModel(-1);
                 this.saveItems(sender, e);
             }
+
+            MouseEventArgs mouse = new MouseEventArgs( MouseButtons.Left, 1, 0, 0, 0);
+            DataGridViewCellMouseEventArgs k = new DataGridViewCellMouseEventArgs(-1, 0, 0, 0, mouse);
+            sender = this.modelsDataGridView;
+            this.dgv_RowHeaderMouseClick(sender, k);
+            sender= this.jointsDataGridView;
+            this.dgv_RowHeaderMouseClick(sender, k);
+
         }
 
         private void fillData(object sender, EventArgs e)
