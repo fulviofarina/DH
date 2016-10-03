@@ -20,7 +20,7 @@
 //      * Neither the name of the Accord.NET Framework authors nor the
 //        names of its contributors may be used to endorse or promote products
 //        derived from this software without specific prior written permission.
-// 
+//
 //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 //  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 //  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -31,83 +31,62 @@
 //  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 //  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// 
+//
 
 using System;
-using System.Windows.Forms;
-using Accord.Controls;
-using Accord.Math.Kinematics;
-using Accord.Math;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Windows.Forms;
+using Accord.Math.Kinematics;
+
 namespace DH
 {
     /// <summary>
     ///   Denavit-Hartenberg models for kinematic chains.
     /// </summary>
-    /// 
+    ///
     /// <remarks>
     ///   This sample application, together with the original Denavit-Hartenberg model
     ///   classes, were contributed to the framework by Rémy Dispagne. The framework
     ///   author is immensely grateful to Rémy for this outstanding contribution!
     /// </remarks>
-    /// 
+    ///
     public partial class Form1 : Form
     {
-    
-        DenavitHartenbergModel model_tgripper;  // The model left gripper
-        DenavitHartenbergModel model_bgripper;  // The model right gripper
+        private DenavitHartenbergModel model_tgripper;  // The model left gripper
+        private DenavitHartenbergModel model_bgripper;  // The model right gripper
         private DH.db.ModelsRow currentModel = null;
         private DH.db.ModelsRow basePosition = null;
         private DH.db.JointsRow currentJoint = null;
 
-
-        // The whole arm made of a combination of 
+        // The whole arm made of a combination of
         // the three previously declared models:
         //
         //   IList<DenavitHartenbergModel> models;           // The arm base model
         //   IList<DenavitHartenbergNode> arms;
 
+        private IList<System.Drawing.Image> images = null;
 
-        IList<System.Drawing.Image> images = null;
-
-            ucView ucView=null;
+        private ucView ucView = null;
 
         public Form1()
         {
             InitializeComponent();
-
-      
-
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'db.Images' table. You can move, or remove it, as needed.
-           // this.imagesTA.Fill(this.db.Images);
-            // TODO: This line of code loads data into the 'db.Factors' table. You can move, or remove it, as needed.
-            // TODO: This line of code loads data into the 'db.Freedom' table. You can move, or remove it, as needed.
-
-            // Ok, let's start to build our virtual robot arm !
-
-            //  models = new List<DenavitHartenbergModel>();
-            // arms = new List<DenavitHartenbergNode>();
 
             ucView = new ucView();
             ucView.Dock = DockStyle.Fill;
             sC.Panel2.Controls.Add(ucView);
 
-            fillData();
-
-
-
-         
+            fillData(sender,e);
 
             getCurrentItems(sender, e);
 
             refreshBtn_Click(sender, e);
-
 
             timer1.Interval = Convert.ToInt32(timeBox.Text);
 
@@ -120,7 +99,7 @@ namespace DH
             if (this.db.Models.Count == 0)
             {
                 currentModel = this.db.Models.MakeAModel(1);
-                this.jointsBindingNavigatorSaveItem_Click(sender, e);
+                this.saveItems(sender, e);
             }
             else currentModel = this.db.Models.FirstOrDefault();
 
@@ -135,11 +114,11 @@ namespace DH
             if (basePosition == null)
             {
                 basePosition = this.db.Models.MakeAModel(-1);
-                this.jointsBindingNavigatorSaveItem_Click(sender, e);
+                this.saveItems(sender, e);
             }
         }
 
-        private void fillData()
+        private void fillData(object sender, EventArgs e)
         {
             // Start the animation
             string colFilter = this.db.Models.ModelTypeColumn.ColumnName;
@@ -155,13 +134,40 @@ namespace DH
             this.freedomTableAdapter.Fill(this.db.Freedom);
             this.jointsTableAdapter.Fill(this.db.Joints);
             this.factorsTableAdapter.Fill(this.db.Factors);
+        }
 
-          
+        private void setBindingSources(object sender, EventArgs e)
+        {
+            string colFilter;
+            int colId;
+            if (currentModel != null)
+            {
+                colFilter = this.db.Joints.ModelIDColumn.ColumnName;
+                colId = currentModel.ID;
+                this.jointsBindingSource.Filter = colFilter + " = " + colId;
+                this.jointsBindingSource.Sort = this.db.Joints.NrColumn.ColumnName + " asc";
+            }
+            if (currentJoint != null)
+            {
+                colFilter = this.db.Freedom.JointIDColumn.ColumnName;
+                colId = currentJoint.ID;
+                this.freedomBindingSource.Filter = colFilter + " = " + colId;
 
-
+                colFilter = this.db.Factors.JointIDColumn.ColumnName;
+                //  colId = currentJoint.ID;
+                this.factorsBS.Filter = colFilter + " = " + colId;
+            }
         }
 
 
+        int maxPathCnt = 10;
+        // Pause/Start button
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Toggle animation
+            saveItems(sender, e);
+            timer1.Enabled = !timer1.Enabled;
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             // Let's move some joints to make a "hello" or "help meeee !" gesture !
@@ -170,31 +176,44 @@ namespace DH
 
             this.db.AnimateAs();
 
+
             refreshBtn_Click(sender, e);
+
+        
+                this.db.SetFKTFromBaseToEndPoint(nodes);
+
+                this.db.FindEndPosition(basePosition.Vector);
+
+
+            try
+            {
+                maxPathCnt = Convert.ToInt32(this.PathCntBox.Text);
+            }
+            catch (Exception)
+
+            {
+            }
+
+              
+            bool toSaveCheckPoint = this.db.ShouldCheck(maxPathCnt);
+          
+                if (toSaveCheckPoint)
+                {
+                    IEnumerable<object> images = ucView.SavePics();
+                    this.db.CheckIteration(ref images);
+                    images = null;
+
+                    this.db.CleanPath();
+                    saveItems(sender, e);
+                    this.db.Images.Clear();
+                }
+           
+
+
             timer1.Enabled = true;
         }
 
-        /*
-        void animateAsPlant(object sender, EventArgs e)
-        {
 
-            //     model.Joints[0].Parameters.Theta = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
-            //    model.Joints[1].Parameters.Theta = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
-
-            //  model.Joints[2].Parameters.Theta = (float)(Math.Sin(angle) * Math.PI / 4 + Math.PI / 6);
-
-            // Increment the animation time
-
-        }
-
-        */
-        // Pause/Start button
-        private void button1_Click(object sender, EventArgs e)
-        {
-            // Toggle animation
-            jointsBindingNavigatorSaveItem_Click(sender, e);
-            timer1.Enabled = !timer1.Enabled;
-        }
 
         /// <summary>
         /// not used yet
@@ -203,8 +222,6 @@ namespace DH
         /// <param name="e"></param>
         private void gripperBtn_Click(object sender, EventArgs e)
         {
-
-
             // Create the top finger
             model_tgripper = new DenavitHartenbergModel();
 
@@ -222,191 +239,26 @@ namespace DH
             // Add the bottom finger
             currentModel.Arm.Children.Add(model_bgripper);
 
-         
-
             refreshBtn_Click(sender, e);
-
-
         }
-     
-
-     
-     
-
-   
-        private void refreshBtn_Click(object sender, EventArgs e)
-        {
-
-            //create models based on the tables
-            this.db.Models.LinkModels();
-
-
-            //compute all nodes
-            DenavitHartenbergNode[] nodes = this.db.ComputeNodes();
-
-
-            //draw
-            ucView.Draw(nodes);
-
-            //calculations in progress
-            try
-            {
-                this.db.SetFKTFromBaseToEndPoint(nodes);
-                int maxPathCnt = Convert.ToInt32(this.PathCntBox.Text);
-                this.db.FindEndPosition(basePosition.Vector);
-
-                List<System.Drawing.Image> imgs = ucView.SavePics();
-                bool toSaveCheckPoint = this.db.CheckIteration(ref imgs, maxPathCnt);
-                if (toSaveCheckPoint)
-                {
-                    jointsBindingNavigatorSaveItem_Click(sender, e);
-                 
-                }
-               
-            }
-            catch (Exception)
-            {
-
-                
-            }
-
-         
-            //recover this
-            //  this.SetDesktopLocation((int)m.x, (int)m.y);
-
-            //    Application.DoEvents();
-
-
-            //      currentModel = m;
-
-
-            //   this.db.Models.LinkModels(ref currentModel);
-
-
-            //  currentModel.RefreshPosition();
-
-            //   ucView.Draw(currentModel.Arm);
-
-
-
-
-
-        }
-
-     
-        private void setBindingSources()
-        {
-            string colFilter;
-            int colId;
-            if (currentModel != null)
-            {
-                colFilter = this.db.Joints.ModelIDColumn.ColumnName;
-                colId = currentModel.ID;
-                this.jointsBindingSource.Filter = colFilter + " = " + colId;
-                this.jointsBindingSource.Sort = this.db.Joints.NrColumn.ColumnName + " asc";
-
-            }
-            if (currentJoint != null)
-            {
-
-                colFilter = this.db.Freedom.JointIDColumn.ColumnName;
-                colId = currentJoint.ID;
-                this.freedomBindingSource.Filter = colFilter + " = " + colId;
-
-                colFilter = this.db.Factors.JointIDColumn.ColumnName;
-              //  colId = currentJoint.ID;
-                this.factorsBS.Filter = colFilter + " = " + colId;
-
-
-            }
-
-        }
-
-        private void modelsDataGridView_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-
-             DataGridView dgv = sender as DataGridView;
-
-             DataGridViewRow dgvr = dgv.Rows[e.RowIndex];
-
-             if (dgvr == null) return;
-
-             DataRowView v = dgvr.DataBoundItem as DataRowView;
-
-             if (dgv.Equals(this.modelsDataGridView)) currentModel = v.Row as db.ModelsRow;
-             else if (dgv.Equals(this.jointsDataGridView)) currentJoint = v.Row as db.JointsRow;
-
-
-            //link binding sources of FORM
-            setBindingSources();
-
-
-            refreshBtn_Click(sender, e);
-
-
-        }
-
-
-        
-
         private void addBtn_Click(object sender, EventArgs e)
         {
-
             if (sender == modelBtn)
             {
                 this.db.Models.MakeAModel(1);
-
             }
             else if (sender == jointBtn)
             {
-                currentJoint =  this.db.Joints.MakeAJoint(ref currentModel);
-                this.jointsBindingNavigatorSaveItem_Click(sender, e);
+                currentJoint = this.db.Joints.MakeAJoint(ref currentModel);
+                this.saveItems(sender, e);
                 this.db.Freedom.MakeAFreedom(currentJoint.ID);
                 this.db.Factors.MakeAFactor(currentJoint.ID);
-
             }
-            this.jointsBindingNavigatorSaveItem_Click(sender, e);
-
-            refreshBtn_Click(sender, e);
-
-        }
-
-        private void jointsBindingNavigatorSaveItem_Click(object sender, EventArgs e)
-        {
-            this.Validate();
-
-            IEnumerable<object> bss = this.Controls.OfType<BindingSource>();
-            foreach(BindingSource bs in bss)
-            {
-                bs.EndEdit();
-            }
-            this.tableAdapterManager.UpdateAll(this.db);
-            this.db.Images.Clear();
-
-        }
-
-        private void clean_Click(object sender, EventArgs e)
-        {
-
-            this.db.CleanPath();
-
-
-            jointsBindingNavigatorSaveItem_Click(sender, e);
+            this.saveItems(sender, e);
 
             refreshBtn_Click(sender, e);
         }
 
-        private void modelsDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            if (timer1.Enabled) timer1.Enabled = false;
-          //  timer1.Enabled = !timer1.Enabled;
-        }
-
-        private void pointEndDGV_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (!timer1.Enabled) timer1.Enabled = true;
-
-        }
 
         private void cineBtn_Click(object sender, EventArgs e)
         {
@@ -415,11 +267,95 @@ namespace DH
             //GET AN AARAY OF IMAGES
             // images = new List<System.Drawing.Image>();
 
-
             IEnumerable<object> images = this.db.GetImages();
             //DISPLAY MOVIES
             ucView.DisplayCinema(ref images);
         }
+        private DenavitHartenbergNode[] nodes = null;
+        private void clean_Click(object sender, EventArgs e)
+        {
+            this.db.CleanPath();
+
+            saveItems(sender, e);
+
+            refreshBtn_Click(sender, e);
+        }
+
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            //create models based on the tables
+            this.db.Link();
+
+            //compute all nodes
+            nodes = this.db.ComputeNodes();
+
+            //draw
+            ucView.Draw(nodes);
+
+            //calculations in progress
+             
+
+            //recover this
+            //  this.SetDesktopLocation((int)m.x, (int)m.y);
+
+            //    Application.DoEvents();
+
+            //      currentModel = m;
+
+            //   this.db.Models.LinkModels(ref currentModel);
+
+            //  currentModel.RefreshPosition();
+
+            //   ucView.Draw(currentModel.Arm);
+        }
+
+        private void saveItems(object sender, EventArgs e)
+        {
+            this.Validate();
+
+            IEnumerable<object> bss = this.Controls.OfType<BindingSource>();
+            foreach (BindingSource bs in bss)
+            {
+                bs.EndEdit();
+            }
+            this.tableAdapterManager.UpdateAll(this.db);
+          
+        }
+
+
+
+
+
+
+     
+        private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (timer1.Enabled) timer1.Enabled = false;
+            //  timer1.Enabled = !timer1.Enabled;
+        }
+        private void dgv_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dgv = sender as DataGridView;
+
+            DataGridViewRow dgvr = dgv.Rows[e.RowIndex];
+
+            if (dgvr == null) return;
+
+            DataRowView v = dgvr.DataBoundItem as DataRowView;
+
+            if (dgv.Equals(this.modelsDataGridView)) currentModel = v.Row as db.ModelsRow;
+            else if (dgv.Equals(this.jointsDataGridView)) currentJoint = v.Row as db.JointsRow;
+
+            //link binding sources of FORM
+            setBindingSources(sender, e);
+
+            refreshBtn_Click(sender, e);
+        }
+
+        private void dgv_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!timer1.Enabled) timer1.Enabled = true;
+        }
+
     }
 }
-

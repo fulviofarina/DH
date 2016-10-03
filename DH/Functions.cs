@@ -1,28 +1,19 @@
 ﻿using System;
-using System.Windows.Forms;
-using Accord.Controls;
-using Accord.Math.Kinematics;
-using Accord.Math;
 using System.Collections.Generic;
 using System.Data;
-
-using System.Linq;
-using System.IO;
 using System.Drawing;
+using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+using Accord.Math;
+using Accord.Math.Kinematics;
 
 namespace DH
 {
-
-
     public partial class db
     {
-
-
-
         public IEnumerable<Image> GetImages()
         {
-
             Func<ImagesRow, Image> conv = o =>
             {
                 return byteArrayToImg(o.PlaneXY);
@@ -32,7 +23,6 @@ namespace DH
 
             return images;
         }
-
 
         public DenavitHartenbergNode[] ComputeNodes()
         {
@@ -46,28 +36,35 @@ namespace DH
             }
             return nodes.ToList().ToArray();
         }
+
         public void SetFKTFromBaseToEndPoint(DenavitHartenbergNode[] nodes)
         {
-
             Matrix4x4 matrix = nodes.First().Model.Transform;
             bool assigned = false;
             foreach (DenavitHartenbergNode n in nodes)
             {
                 if (!assigned)
                 {
-
                     assigned = true;
                 }
                 else
                 {
                     matrix = Matrix4x4.Multiply(matrix, n.Model.Transform);
-
                 }
             }
 
-
             transform = matrix;
+        }
 
+        public void Link()
+        {
+            IList<DH.db.ModelsRow> models = this.Models.Where(p => p.Show).ToList();
+            int count = models.Count();
+            for (int i = 0; i < count; i++)
+            {
+                DH.db.ModelsRow m = models[i];
+                m.Link();
+            }
         }
 
         private Matrix4x4 transform;
@@ -82,21 +79,16 @@ namespace DH
             //position of end-effector on first frame?
             Vector4 position0 = Matrix4x4.Multiply(transform, basePosition);
 
-
-
             //ENDEFFECTORPOSITION IS THIS ONE
             db.ModelsRow m = this.Models.MakeAModel(0);
             m.ModelType = 0;
             m.x = position0.X;
             m.y = position0.Y;
             m.z = position0.Z;
-
-
         }
 
         public void CleanPath()
         {
-
             IEnumerable<DH.db.ModelsRow> mods = this.Models;
             mods = mods.Where(o => o.ModelType == 0).ToList();
             foreach (DH.db.ModelsRow m in mods)
@@ -105,12 +97,11 @@ namespace DH
                 //   m.AcceptChanges();
             }
             this.AcceptChanges();
-
         }
+
         //double angle = 0;                // Angle variable for animation
         public void AnimateAs()
         {
-
             IEnumerable<DH.db.ModelsRow> models = this.Models;
             models = models.Where(p => p.ModelType > 0);
             models = models.Where(p => p.Show);
@@ -118,7 +109,6 @@ namespace DH
 
             foreach (DH.db.ModelsRow m in models)
             {
-
                 IEnumerable<DH.db.JointsRow> joints = m.GetJointsRows();
                 joints = joints.Where(p => p.Show);
 
@@ -128,10 +118,7 @@ namespace DH
             }
 
             models = null;
-
         }
-
-
 
         public static byte[] imageToByteArray(System.Drawing.Image image)
         {
@@ -140,10 +127,9 @@ namespace DH
             // image.Save(ms, image.RawFormat);
             // return ms.ToArray();
 
-
             return (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-
         }
+
         public static System.Drawing.Image byteArrayToImg(byte[] arr)
         {
             // MemoryStream ms = new MemoryStream();
@@ -154,41 +140,48 @@ namespace DH
             return (Bitmap)((new ImageConverter()).ConvertFrom(arr));
 
             //            return (Image)new ImageConverter().ConvertTo(arr, typeof(Image));
-
         }
-        internal bool CheckIteration(ref List<System.Drawing.Image> imgs, int maxPathCnt)
+
+
+        public bool ShouldCheck (int maxPathCnt)
         {
-            if (this.Models.Where(o => o.ModelType == 0).Count() > maxPathCnt)
-            {
+
+            
+                return this.Models.Where(o => o.ModelType == 0).Count() > maxPathCnt;
+            
+        }
+        internal void CheckIteration(ref IEnumerable<object> images)
+        {
+           
                 // this.Images.Clear();
                 // foreach (System.Drawing.Image i in imgs)
-                {
-                    Application.DoEvents();
-                    ImagesRow r = this.Images.NewImagesRow();
-                    this.Images.AddImagesRow(r);
+                //    {
 
-                    r.PlaneXY = imageToByteArray(imgs[0]); //.Clone().To<byte[]>();
-                    Application.DoEvents();
-                    r.PlaneXZ = imageToByteArray(imgs[1]);
-                    Application.DoEvents();
-                    r.PlaneYZ = imageToByteArray(imgs[2]);
-                    Application.DoEvents();
+                IList<Image> ls = images.Cast<Image>().ToList();
 
-                    byte[] prueba = Encoding.ASCII.GetBytes(this.GetXml());// ConvertTo( this.GetXml(), typeof(byte[]));
-                    Application.DoEvents();
-                    Application.DoEvents();
-                    r.FinalDH = prueba;
-                    // byte[] toBytes = Encoding.ASCII.GetBytes(somestring);
-                    //string something = Encoding.ASCII.GetString(toBytes);
-                    //  p.Image.SaveAdd(new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.ChrominanceTable));
+                Application.DoEvents();
+                ImagesRow r = this.Images.NewImagesRow();
+                this.Images.AddImagesRow(r);
 
-                }
+                r.PlaneXY = imageToByteArray(ls[0]); //.Clone().To<byte[]>();
+                Application.DoEvents();
+                r.PlaneXZ = imageToByteArray(ls[1]);
+                Application.DoEvents();
+                r.PlaneYZ = imageToByteArray(ls[2]);
+                Application.DoEvents();
 
-                this.CleanPath();
+                byte[] prueba = Encoding.ASCII.GetBytes(this.GetXml());// ConvertTo( this.GetXml(), typeof(byte[]));
+                Application.DoEvents();
+                Application.DoEvents();
+                r.FinalDH = prueba;
 
-                return true;
-            }
-            else return false;
+
+                ls.Clear();
+                ls = null;
+                prueba = null;
+               
+           
+           
         }
     }
 }
