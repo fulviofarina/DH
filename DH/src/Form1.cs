@@ -231,11 +231,20 @@ namespace DH
 
             //draw
             ucView.Draw(nodes);
-       
+
             //calculations in progress
-            this.db.SetFKTFromBaseToEndPoint(nodes);
-            int maxPathCnt = Convert.ToInt32(this.PathCntBox.Text);
-            this.db.FindEndPosition(basePosition.Vector, maxPathCnt);
+            try
+            {
+                this.db.SetFKTFromBaseToEndPoint(nodes);
+                int maxPathCnt = Convert.ToInt32(this.PathCntBox.Text);
+                this.db.FindEndPosition(basePosition.Vector, maxPathCnt);
+            }
+            catch (Exception)
+            {
+
+                
+            }
+       
             //recover this
             //  this.SetDesktopLocation((int)m.x, (int)m.y);
 
