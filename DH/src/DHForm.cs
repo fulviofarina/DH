@@ -52,37 +52,32 @@ namespace DH
     ///   author is immensely grateful to Rémy for this outstanding contribution!
     /// </remarks>
     ///
-    public partial class Form1 : Form
+    public partial class DHForm : Form
     {
         private DenavitHartenbergModel model_tgripper;  // The model left gripper
         private DenavitHartenbergModel model_bgripper;  // The model right gripper
+
         private DH.db.ModelsRow currentModel = null;
         private DH.db.ModelsRow basePosition = null;
         private DH.db.JointsRow currentJoint = null;
 
-        // The whole arm made of a combination of
-        // the three previously declared models:
-        //
-        //   IList<DenavitHartenbergModel> models;           // The arm base model
-        //   IList<DenavitHartenbergNode> arms;
-
-        private IList<System.Drawing.Image> images = null;
+        private int maxPathCnt = 10;
 
         private ucView ucView = null;
+        private DenavitHartenbergNode[] nodes = null;
 
-        public Form1()
+        public DHForm()
         {
             InitializeComponent();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
             ucView = new ucView();
             ucView.Dock = DockStyle.Fill;
             sC.Panel2.Controls.Add(ucView);
 
-            fillData(sender,e);
+            fillData(sender, e);
 
             getCurrentItems(sender, e);
 
@@ -110,13 +105,12 @@ namespace DH
                 this.saveItems(sender, e);
             }
 
-            MouseEventArgs mouse = new MouseEventArgs( MouseButtons.Left, 1, 0, 0, 0);
+            MouseEventArgs mouse = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
             DataGridViewCellMouseEventArgs k = new DataGridViewCellMouseEventArgs(-1, 0, 0, 0, mouse);
             sender = this.modelsDataGridView;
             this.dgv_RowHeaderMouseClick(sender, k);
-            sender= this.jointsDataGridView;
+            sender = this.jointsDataGridView;
             this.dgv_RowHeaderMouseClick(sender, k);
-
         }
 
         private void fillData(object sender, EventArgs e)
@@ -160,8 +154,8 @@ namespace DH
             }
         }
 
+        #region buttons Model/Animate
 
-        int maxPathCnt = 10;
         // Pause/Start button
         private void button1_Click(object sender, EventArgs e)
         {
@@ -169,6 +163,7 @@ namespace DH
             saveItems(sender, e);
             timer1.Enabled = !timer1.Enabled;
         }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             // Let's move some joints to make a "hello" or "help meeee !" gesture !
@@ -177,14 +172,11 @@ namespace DH
 
             this.db.AnimateAs();
 
-
             refreshBtn_Click(sender, e);
 
-        
-                this.db.SetFKTFromBaseToEndPoint(nodes);
+            this.db.SetFKTFromBaseToEndPoint(nodes);
 
-                this.db.FindEndPosition(basePosition.Vector);
-
+            this.db.FindEndPosition(basePosition.Vector);
 
             try
             {
@@ -195,26 +187,21 @@ namespace DH
             {
             }
 
-              
             bool toSaveCheckPoint = this.db.ShouldCheck(maxPathCnt);
-          
-                if (toSaveCheckPoint)
-                {
-                    IEnumerable<object> images = ucView.SavePics();
-                    this.db.CheckIteration(ref images);
-                    images = null;
 
-                    this.db.CleanPath();
-                    saveItems(sender, e);
-                    this.db.Images.Clear();
-                }
-           
+            if (toSaveCheckPoint)
+            {
+                IEnumerable<object> images = ucView.SavePics();
+                this.db.CheckIteration(ref images);
+                images = null;
 
+                this.db.CleanPath();
+                saveItems(sender, e);
+                this.db.Images.Clear();
+            }
 
             timer1.Enabled = true;
         }
-
-
 
         /// <summary>
         /// not used yet
@@ -242,6 +229,7 @@ namespace DH
 
             refreshBtn_Click(sender, e);
         }
+
         private void addBtn_Click(object sender, EventArgs e)
         {
             if (sender == modelBtn)
@@ -260,6 +248,9 @@ namespace DH
             refreshBtn_Click(sender, e);
         }
 
+        #endregion buttons Model/Animate
+
+        #region buttons database
 
         private void cineBtn_Click(object sender, EventArgs e)
         {
@@ -272,7 +263,7 @@ namespace DH
             //DISPLAY MOVIES
             ucView.DisplayCinema(ref images);
         }
-        private DenavitHartenbergNode[] nodes = null;
+
         private void clean_Click(object sender, EventArgs e)
         {
             this.db.CleanPath();
@@ -294,7 +285,6 @@ namespace DH
             ucView.Draw(nodes);
 
             //calculations in progress
-             
 
             //recover this
             //  this.SetDesktopLocation((int)m.x, (int)m.y);
@@ -320,20 +310,18 @@ namespace DH
                 bs.EndEdit();
             }
             this.tableAdapterManager.UpdateAll(this.db);
-          
         }
 
+        #endregion buttons database
 
+        #region DGV
 
-
-
-
-     
         private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             if (timer1.Enabled) timer1.Enabled = false;
             //  timer1.Enabled = !timer1.Enabled;
         }
+
         private void dgv_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dgv = sender as DataGridView;
@@ -358,5 +346,6 @@ namespace DH
             if (!timer1.Enabled) timer1.Enabled = true;
         }
 
+        #endregion DGV
     }
 }

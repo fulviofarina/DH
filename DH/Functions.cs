@@ -24,6 +24,84 @@ namespace DH
             return images;
         }
 
+        internal void CheckIteration(ref IEnumerable<object> images)
+        {
+            // this.Images.Clear();
+            // foreach (System.Drawing.Image i in imgs)
+            //    {
+            IList<Image> ls = images.Cast<Image>().ToList();
+
+            Application.DoEvents();
+            ImagesRow r = this.Images.NewImagesRow();
+            this.Images.AddImagesRow(r);
+
+            r.PlaneXY = imageToByteArray(ls[0]); //.Clone().To<byte[]>();
+            Application.DoEvents();
+            r.PlaneXZ = imageToByteArray(ls[1]);
+            Application.DoEvents();
+            r.PlaneYZ = imageToByteArray(ls[2]);
+            Application.DoEvents();
+
+            byte[] prueba = Encoding.ASCII.GetBytes(this.GetXml());// ConvertTo( this.GetXml(), typeof(byte[]));
+            Application.DoEvents();
+            Application.DoEvents();
+            r.FinalDH = prueba;
+
+            ls.Clear();
+            ls = null;
+            prueba = null;
+        }
+
+
+
+        private Matrix4x4 transform;
+
+        /// <summary>
+        /// The basePosition is the chosen
+        /// </summary>
+        /// <param name="basePosition"></param>
+        /// <param name="maxPathCnt"></param>
+        public void FindEndPosition(Vector4 basePosition)
+        {
+            //position of end-effector on first frame?
+            Vector4 position1 = Matrix4x4.Multiply(transform, basePosition);
+
+            //ENDEFFECTORPOSITION IS THIS ONE
+            db.ModelsRow m = this.Models.MakeAModel(0);
+            m.ModelType = 0;
+            m.x = position1.X;
+            m.y = position1.Y;
+            m.z = position1.Z;
+
+            
+        }
+
+
+        private static byte[] imageToByteArray(Image image)
+        {
+            // MemoryStream ms = new MemoryStream();
+
+            // image.Save(ms, image.RawFormat);
+            // return ms.ToArray();
+
+            return (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+        }
+
+        private static Image byteArrayToImg(byte[] arr)
+        {
+            // MemoryStream ms = new MemoryStream();
+
+            // System.Drawing.Image image;
+            // image.Save(ms, image.RawFormat);
+            // return ms.ToArray();
+            return (Bitmap)((new ImageConverter()).ConvertFrom(arr));
+
+            //            return (Image)new ImageConverter().ConvertTo(arr, typeof(Image));
+        }
+
+        #region MODELS
+
+
         public DenavitHartenbergNode[] ComputeNodes()
         {
             IEnumerable<ModelsRow> models = this.Models.Rows.OfType<ModelsRow>();
@@ -56,6 +134,8 @@ namespace DH
             transform = matrix;
         }
 
+
+
         public void Link()
         {
             IList<DH.db.ModelsRow> models = this.Models.Where(p => p.Show).ToList();
@@ -66,25 +146,9 @@ namespace DH
                 m.Link();
             }
         }
-
-        private Matrix4x4 transform;
-
-        /// <summary>
-        /// The basePosition is the chosen
-        /// </summary>
-        /// <param name="basePosition"></param>
-        /// <param name="maxPathCnt"></param>
-        public void FindEndPosition(Vector4 basePosition)
+        public bool ShouldCheck(int maxPathCnt)
         {
-            //position of end-effector on first frame?
-            Vector4 position0 = Matrix4x4.Multiply(transform, basePosition);
-
-            //ENDEFFECTORPOSITION IS THIS ONE
-            db.ModelsRow m = this.Models.MakeAModel(0);
-            m.ModelType = 0;
-            m.x = position0.X;
-            m.y = position0.Y;
-            m.z = position0.Z;
+            return this.Models.Where(o => o.ModelType == 0).Count() > maxPathCnt;
         }
 
         public void CleanPath()
@@ -120,68 +184,7 @@ namespace DH
             models = null;
         }
 
-        public static byte[] imageToByteArray(System.Drawing.Image image)
-        {
-            // MemoryStream ms = new MemoryStream();
+        #endregion
 
-            // image.Save(ms, image.RawFormat);
-            // return ms.ToArray();
-
-            return (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-        }
-
-        public static System.Drawing.Image byteArrayToImg(byte[] arr)
-        {
-            // MemoryStream ms = new MemoryStream();
-
-            // System.Drawing.Image image;
-            // image.Save(ms, image.RawFormat);
-            // return ms.ToArray();
-            return (Bitmap)((new ImageConverter()).ConvertFrom(arr));
-
-            //            return (Image)new ImageConverter().ConvertTo(arr, typeof(Image));
-        }
-
-
-        public bool ShouldCheck (int maxPathCnt)
-        {
-
-            
-                return this.Models.Where(o => o.ModelType == 0).Count() > maxPathCnt;
-            
-        }
-        internal void CheckIteration(ref IEnumerable<object> images)
-        {
-           
-                // this.Images.Clear();
-                // foreach (System.Drawing.Image i in imgs)
-                //    {
-
-                IList<Image> ls = images.Cast<Image>().ToList();
-
-                Application.DoEvents();
-                ImagesRow r = this.Images.NewImagesRow();
-                this.Images.AddImagesRow(r);
-
-                r.PlaneXY = imageToByteArray(ls[0]); //.Clone().To<byte[]>();
-                Application.DoEvents();
-                r.PlaneXZ = imageToByteArray(ls[1]);
-                Application.DoEvents();
-                r.PlaneYZ = imageToByteArray(ls[2]);
-                Application.DoEvents();
-
-                byte[] prueba = Encoding.ASCII.GetBytes(this.GetXml());// ConvertTo( this.GetXml(), typeof(byte[]));
-                Application.DoEvents();
-                Application.DoEvents();
-                r.FinalDH = prueba;
-
-
-                ls.Clear();
-                ls = null;
-                prueba = null;
-               
-           
-           
-        }
     }
 }

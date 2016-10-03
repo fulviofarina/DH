@@ -22,7 +22,7 @@ namespace DH
             foreach (PictureBox p in pics)
             {
                 imgs.Add(p.Image);
-            //    p.Image.Save(filepath + "." + p.Tag + ".jpg");
+                //    p.Image.Save(filepath + "." + p.Tag + ".jpg");
 
                 //  p.Image.SaveAdd(new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.ChrominanceTable));
             }
