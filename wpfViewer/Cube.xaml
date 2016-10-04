@@ -1,16 +1,21 @@
-﻿<Window x:Class = "WpfApplication1.MainWindow" 
+﻿<Window x:Class = "wpfViewer.Cube" 
    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
    xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
    xmlns:d = "http://schemas.microsoft.com/expression/blend/2008" 
    xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006" 
-   xmlns:local = "clr-namespace:WpfApplication1" 
-   mc:Ignorable = "d" Title = "MainWindow" Height = "623.325" Width = "619.716">
+   xmlns:local = "clr-namespace:wpfViewer" 
+   mc:Ignorable = "d" Title = "Cube" Height = "623.325" Width = "619.716">
 
     <Grid>
         <Viewport3D x:Name="viewer">
 
             <Viewport3D.Camera>
-                <PerspectiveCamera x:Name = "camMain" Position = "6 5 4" LookDirection = "-6 -5 -4">
+                <PerspectiveCamera x:Name = "camMain"
+                  UpDirection="6 5 0"
+                  
+                  LookDirection="-6 -5 -4"
+                  Position="6 5 4">
+                    
                 </PerspectiveCamera>
             </Viewport3D.Camera>
 
@@ -27,7 +32,7 @@
 
                         <GeometryModel3D.Geometry>
                             <MeshGeometry3D x:Name = "meshGeo"
-                        Positions = "0 0 0  1 0 0  0 1 0  1 1 0  0 0 1  1 0 1  0 1 1  0 1 1"  
+                      Positions = "0 0 0  1 0 0  0 1 0  1 1 0  0 0 1  1 0 1  0 1 1  0 1 1"  
                         TriangleIndices = "2 3 1  3 1 0  7 1 3  7 5 1  6 5 7  6 4 5  6 2 0
                         2 0 4  2 7 3  2 6 7  0 1 5  0 5 4">
                             </MeshGeometry3D>

@@ -7,20 +7,18 @@ using Accord.Controls;
 using Accord.Math.Kinematics;
 
 
-using Axiom.Core;
-using Axiom.Graphics;
-using Axiom.Math;
-using Axiom.Framework.Configuration;
 
 namespace DH
 {
     public partial class ucView : UserControl
     {
 
-        RenderWindow window = null;
-        Root root = null;
+       /*
         public void prueba()
         {
+            RenderWindow window = null;
+            Root root = null;
+
             IConfigurationManager ConfigurationManager =  ConfigurationManagerFactory.CreateDefault();
 
             string glog = "Game1.log";
@@ -79,6 +77,8 @@ namespace DH
            
 
         }
+
+        */
 
         private IList<PictureBox> pics = new List<PictureBox>();
         private IList<PictureBox> Maxpics = new List<PictureBox>();

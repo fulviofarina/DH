@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.MachineLearning", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Statistics", "..\framework\Sources\Accord.Statistics\Accord.Statistics.csproj", "{FD8101DD-C95D-42D6-AD44-AE01C25F2811}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{AD805399-F760-4397-A029-5470371A0ED7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpfViewer", "wpfViewer\wpfViewer.csproj", "{AD805399-F760-4397-A029-5470371A0ED7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
