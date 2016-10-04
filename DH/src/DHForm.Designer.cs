@@ -132,6 +132,7 @@
             this.modelsTableAdapter = new DH.dbTableAdapters.ModelsTableAdapter();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagesDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imagesBindingSource)).BeginInit();
@@ -166,6 +167,7 @@
             this.sC.Panel1.SuspendLayout();
             this.sC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
@@ -1105,6 +1107,10 @@
             this.splitContainer4.Location = new System.Drawing.Point(0, 0);
             this.splitContainer4.Name = "splitContainer4";
             // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.button2);
+            // 
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.tableLayoutPanel1);
@@ -1129,6 +1135,16 @@
             this.splitContainer5.Size = new System.Drawing.Size(1072, 736);
             this.splitContainer5.SplitterDistance = 334;
             this.splitContainer5.TabIndex = 9;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(27, 32);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // DHForm
             // 
@@ -1178,6 +1194,7 @@
             this.sC.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.sC)).EndInit();
             this.sC.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
@@ -1287,6 +1304,7 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn5;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.SplitContainer splitContainer5;
+        private System.Windows.Forms.Button button2;
     }
 }
 

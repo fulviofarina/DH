@@ -1,0 +1,233 @@
+﻿import * from "SdkTrays.overlay"
+
+template container BorderPanel(JitterSample/StatPanel) : SdkTrays/Tray
+{
+	vert_align top
+	left 5 
+	top 100
+	width 240
+	height 330
+			    
+	element TextArea(CurrentScene) 
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 7
+		left 7
+	}
+
+	element TextArea(ArbiterCount)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 37
+		left 7
+	}
+
+	element TextArea(ContactCount)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 52
+		left 7
+	}
+
+	element TextArea(IslandCount)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 67
+		left 7
+	}
+		
+	element TextArea(BodyCount)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 82
+		left 7
+	}
+
+	element TextArea(MultiThreaded)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 97
+		left 7
+	}
+
+	element TextArea(Gen)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+		caption gen0:6 gen1:1 gen2:0
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 112
+		left 7
+	}
+
+	element TextArea(CollisionDetect)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 142
+		left 7
+	}
+
+	element TextArea(BuildIslands)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 157
+		left 7
+	}
+
+	element TextArea(HandleArbiter)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 172
+		left 7
+	}
+
+	element TextArea(UpdateContacts)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 187
+		left 7
+	}
+
+	element TextArea(PreStep)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 202
+		left 7
+	}
+
+	element TextArea(DeactivateBodies)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 217
+		left 7
+	}
+
+	element TextArea(IntegrateForces)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 232
+		left 7
+	}
+
+	element TextArea(Integrate)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 247
+		left 7
+	}
+
+	element TextArea(PostStep)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 262
+		left 7
+	}
+
+	element TextArea(Separator)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+		caption ------------------------------------------------
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 277
+		left 7
+	}
+
+	element TextArea(TotalPhysicsTime)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 292
+		left 7
+	}
+
+	element TextArea(PhysicsFramerate)
+	{
+		metrics_mode pixels
+		font_name SdkTrays/Caption
+        char_height 18
+        space_width 9
+        colour 0.9 1 0.7
+		top 307
+		left 7
+	}
+}
+
+template container Panel(JitterSample/JitterLogo)
+{	
+	metrics_mode pixels
+	horz_align left
+	vert_align top
+	top 0
+	left 0
+	width 100
+	height 91
+	material JitterSample/Logo
+}

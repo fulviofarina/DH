@@ -39,6 +39,24 @@
     <Reference Include="Accord.MachineLearning">
       <HintPath>.\Accord.MachineLearning.dll</HintPath>
     </Reference>
+    <Reference Include="Axiom">
+      <HintPath>.\Axiom.dll</HintPath>
+    </Reference>
+    <Reference Include="Axiom.Framework">
+      <HintPath>.\Axiom.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Axiom.Platforms.Win32">
+      <HintPath>.\Axiom.Platforms.Win32.dll</HintPath>
+    </Reference>
+    <Reference Include="Axiom.Plugins.FreeImageCodecs">
+      <HintPath>.\Axiom.Plugins.FreeImageCodecs.dll</HintPath>
+    </Reference>
+    <Reference Include="Axiom.Plugins.ParticleFX">
+      <HintPath>.\Axiom.Plugins.ParticleFX.dll</HintPath>
+    </Reference>
+    <Reference Include="Axiom.RenderSystems.DirectX9">
+      <HintPath>.\Axiom.RenderSystems.DirectX9.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

@@ -79,6 +79,8 @@ namespace DH
             ucView.Dock = DockStyle.Fill;
             sC.Panel2.Controls.Add(ucView);
 
+          
+
             fillData(sender, e);
 
             getCurrentItems(sender, e);
@@ -439,5 +441,10 @@ namespace DH
         }
 
         #endregion DGV
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ucView.prueba();
+        }
     }
 }
