@@ -64,8 +64,8 @@
       <DependentUpon>db.xsd</DependentUpon>
     </Compile>
     <Compile Include="Functions.cs" />
-    <Compile Include="Tables.Joints.cs" />
-    <Compile Include="Tables.cs" />
+    <Compile Include="Joints.cs" />
+    <Compile Include="Models.cs" />
     <Compile Include="src\DHForm.cs">
       <SubType>Form</SubType>
     </Compile>

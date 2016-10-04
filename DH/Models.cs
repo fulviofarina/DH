@@ -82,6 +82,7 @@ namespace DH
 
                 j.ModelType = modelType;
                 j.Show = true;
+
                 this.AddModelsRow(j);
                 return j;
             }

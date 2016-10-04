@@ -237,6 +237,7 @@
             this.imagesDataGridView.Name = "imagesDataGridView";
             this.imagesDataGridView.Size = new System.Drawing.Size(291, 125);
             this.imagesDataGridView.TabIndex = 15;
+            this.imagesDataGridView.Visible = false;
             // 
             // dataGridViewTextBoxColumn26
             // 
@@ -456,6 +457,7 @@
             this.modelsDataGridView.AllowUserToAddRows = false;
             this.modelsDataGridView.AutoGenerateColumns = false;
             this.modelsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.modelsDataGridView.BackgroundColor = System.Drawing.Color.BurlyWood;
             this.modelsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.modelsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn9,
@@ -536,6 +538,7 @@
             this.jointsDataGridView.AllowUserToAddRows = false;
             this.jointsDataGridView.AutoGenerateColumns = false;
             this.jointsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.jointsDataGridView.BackgroundColor = System.Drawing.Color.Thistle;
             this.jointsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.jointsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -682,8 +685,6 @@
             this.factorsDGV.Name = "factorsDGV";
             this.factorsDGV.Size = new System.Drawing.Size(291, 80);
             this.factorsDGV.TabIndex = 8;
-            this.factorsDGV.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgv_CellBeginEdit);
-            this.factorsDGV.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellEndEdit);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -764,8 +765,6 @@
             this.freedomDataGridView.Name = "freedomDataGridView";
             this.freedomDataGridView.Size = new System.Drawing.Size(291, 76);
             this.freedomDataGridView.TabIndex = 6;
-            this.freedomDataGridView.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgv_CellBeginEdit);
-            this.freedomDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellEndEdit);
             // 
             // dataGridViewTextBoxColumn14
             // 

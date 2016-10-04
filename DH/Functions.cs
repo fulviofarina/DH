@@ -54,7 +54,7 @@ namespace DH
 
             byte[] prueba = Encoding.ASCII.GetBytes(this.GetXml());// ConvertTo( this.GetXml(), typeof(byte[]));
             Application.DoEvents();
-            Application.DoEvents();
+          //  Application.DoEvents();
             r.FinalDH = prueba;
 
             ls.Clear();
@@ -66,8 +66,7 @@ namespace DH
 
         private Matrix4x4 transform;
 
-        
-        
+
         /// <summary>
         /// The basePosition is the chosen
         /// </summary>
@@ -80,13 +79,33 @@ namespace DH
 
             //ENDEFFECTORPOSITION IS THIS ONE
             db.ModelsRow m = this.Models.MakeAModel(0);
-            m.ModelType = 0;
+            //  m.ModelType = 0;
             m.x = position1.X;
             m.y = position1.Y;
             m.z = position1.Z;
 
-            
+
         }
+
+        public void SetFKTFromBaseToEndPoint(DenavitHartenbergNode[] nodes)
+        {
+            Matrix4x4 matrix = nodes.First().Model.Transform;
+            bool assigned = false;
+            foreach (DenavitHartenbergNode n in nodes)
+            {
+                if (!assigned)
+                {
+                    assigned = true;
+                }
+                else
+                {
+                    matrix = Matrix4x4.Multiply(matrix, n.Model.Transform);
+                }
+            }
+
+            transform = matrix;
+        }
+
 
 
         #region static utilities
@@ -126,10 +145,11 @@ namespace DH
             IEnumerable<ModelsRow> models = this.Models.Rows.OfType<ModelsRow>();
             models = models.Where(p => p.Show==show);
             IEnumerable<DenavitHartenbergNode> nodes = models.Select(p => p.Arm);
+            nodes = nodes.ToList();
 
             foreach (DenavitHartenbergNode n in nodes)
             {
-                n.Compute();
+               n.Compute();
             }
             return nodes.ToList().ToArray();
 
@@ -138,36 +158,19 @@ namespace DH
 
         }
 
-        public void SetFKTFromBaseToEndPoint(DenavitHartenbergNode[] nodes)
-        {
-            Matrix4x4 matrix = nodes.First().Model.Transform;
-            bool assigned = false;
-            foreach (DenavitHartenbergNode n in nodes)
-            {
-                if (!assigned)
-                {
-                    assigned = true;
-                }
-                else
-                {
-                    matrix = Matrix4x4.Multiply(matrix, n.Model.Transform);
-                }
-            }
-
-            transform = matrix;
-        }
-
 
 
         public void Link()
         {
-            IList<DH.db.ModelsRow> models = this.Models.Where(p => p.Show).ToList();
-            int count = models.Count();
-            for (int i = 0; i < count; i++)
+            IEnumerable<DH.db.ModelsRow> models = this.Models.Where(p => p.Show);
+            models = models.ToList();
+
+            foreach (ModelsRow item in models)
             {
-                DH.db.ModelsRow m = models[i];
-                m.Link();
+                item.Link();
             }
+         
+         
         }
         public bool ShouldCheck(int maxPathCnt)
         {
@@ -178,33 +181,34 @@ namespace DH
         {
             IEnumerable<DH.db.ModelsRow> mods = this.Models;
             mods = mods.Where(o => o.ModelType == 0).ToList();
+            int count = mods.Count();
             foreach (DH.db.ModelsRow m in mods)
             {
                 m.Delete();
                 //   m.AcceptChanges();
             }
-            this.AcceptChanges();
+           // this.Models.AcceptChanges();
         }
 
         //double angle = 0;                // Angle variable for animation
         public void AnimateAs()
         {
-            IEnumerable<DH.db.ModelsRow> models = this.Models;
+            IEnumerable<ModelsRow> models = this.Models;
             models = models.Where(p => p.ModelType > 0);
             models = models.Where(p => p.Show);
             models = models.ToList();
 
-            foreach (DH.db.ModelsRow m in models)
+            foreach (ModelsRow m in models)
             {
-                IEnumerable<DH.db.JointsRow> joints = m.GetJointsRows();
-                joints = joints.Where(p => p.Show);
+                IEnumerable<JointsRow> joints = m.GetJointsRows();
+                joints = joints.Where(p => p.Show).ToList();
 
-                foreach (DH.db.JointsRow j in joints) j.Animate();
+                foreach (JointsRow j in joints) j.Animate();
 
-                joints = null;
+               // joints = null;
             }
 
-            models = null;
+           // models = null;
         }
 
         #endregion

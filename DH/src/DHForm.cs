@@ -107,7 +107,9 @@ namespace DH
                 currentModel = this.db.Models.MakeAModel(1);
                 this.saveItems(sender, e);
             }
+          //  else currentModel = this.db.Models.FirstOrDefault();
 
+                       
             //find current EndPointPosition
             basePosition = this.db.Models.FirstOrDefault(o => o.ModelType == -1);
             if (basePosition == null)
@@ -288,9 +290,11 @@ namespace DH
         /// <param name="e"></param>
         private void addBtn_Click(object sender, EventArgs e)
         {
+         //   bool makeModel = sender == modelBtn;
             if (sender == modelBtn)
             {
                currentModel = this.db.Models.MakeAModel(1);
+             
             }
             else if (sender == jointBtn)
             {
@@ -298,9 +302,11 @@ namespace DH
                 this.saveItems(sender, e);
                 this.db.Freedom.MakeAFreedom(currentJoint.ID);
                 this.db.Factors.MakeAFactor(currentJoint.ID);
+               
             }
-            this.saveItems(sender, e);
 
+
+            this.saveItems(sender, e);
 
             refreshBtn_Click(sender, e);
         }
@@ -358,20 +364,10 @@ namespace DH
             //draw
             ucView.Draw(nodes);
 
-            //calculations in progress
 
-            //recover this
-            //  this.SetDesktopLocation((int)m.x, (int)m.y);
 
-            //    Application.DoEvents();
 
-            //      currentModel = m;
-
-            //   this.db.Models.LinkModels(ref currentModel);
-
-            //  currentModel.RefreshPosition();
-
-            //   ucView.Draw(currentModel.Arm);
+         
         }
 
 
