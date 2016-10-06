@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Media.Media3D;
 
-
-using System.Timers;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using System.Windows.Threading;
 namespace wpfViewer
 {
     public partial class Another
     {
-
-
         public class CircleAssitor
         {
             public CircleAssitor()
@@ -72,9 +60,5 @@ namespace wpfViewer
                 return Vector3D.CrossProduct(v0, v1);
             }
         }
-
-
-
-
     }
 }

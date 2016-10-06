@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using Accord.Math;
 using Accord.Math.Kinematics;
@@ -52,17 +50,12 @@ namespace DH
 
                 set
                 {
-
-
                     joint = value;
                 }
             }
 
             public void Animate()
             {
-               
-                
-
                 if (FreedomRow.theta)
                 {
                     double angle = 0;
@@ -74,13 +67,9 @@ namespace DH
                     angle += ft;
                     FactorsRow.theta = ft; //maldita sea no borrar
                     theta = angle;
-
-
-
                 }
                 if (FreedomRow.alpha)
                 {
-
                     double angle2 = 0;
                     angle2 = alpha;
                     double fa = FactorsRow.alpha;
@@ -116,7 +105,5 @@ namespace DH
                 return j;
             }
         }
-
-     
     }
 }

@@ -24,10 +24,9 @@ namespace DH
             };
             //  IEnumerable<DH.db.ImagesRow> imgs = this.Images;
             IEnumerable<Image> images = this.Images.Select(conv);
-            
+
             return images;
         }
-
 
         /// <summary>
         /// Functions to invoke when the max number of Path points have been draw
@@ -54,7 +53,7 @@ namespace DH
 
             byte[] prueba = Encoding.ASCII.GetBytes(this.GetXml());// ConvertTo( this.GetXml(), typeof(byte[]));
             Application.DoEvents();
-          //  Application.DoEvents();
+            //  Application.DoEvents();
             r.FinalDH = prueba;
 
             ls.Clear();
@@ -62,10 +61,7 @@ namespace DH
             prueba = null;
         }
 
-
-
         private Matrix4x4 transform;
-
 
         /// <summary>
         /// The basePosition is the chosen
@@ -83,8 +79,6 @@ namespace DH
             m.x = position1.X;
             m.y = position1.Y;
             m.z = position1.Z;
-
-
         }
 
         public void SetFKTFromBaseToEndPoint(DenavitHartenbergNode[] nodes)
@@ -105,8 +99,6 @@ namespace DH
 
             transform = matrix;
         }
-
-
 
         #region static utilities
 
@@ -132,7 +124,7 @@ namespace DH
             //            return (Image)new ImageConverter().ConvertTo(arr, typeof(Image));
         }
 
-        #endregion
+        #endregion static utilities
 
         #region MODELS
 
@@ -140,25 +132,19 @@ namespace DH
         /// Recomputes all the nodes asociated to the ModelsTable that have been selected (p.Show)
         /// </summary>
         /// <returns></returns>
-        public DenavitHartenbergNode[] ComputeNodes(bool show=true)
+        public DenavitHartenbergNode[] ComputeNodes(bool show = true)
         {
             IEnumerable<ModelsRow> models = this.Models.Rows.OfType<ModelsRow>();
-            models = models.Where(p => p.Show==show);
+            models = models.Where(p => p.Show == show);
             IEnumerable<DenavitHartenbergNode> nodes = models.Select(p => p.Arm);
             nodes = nodes.ToList();
 
             foreach (DenavitHartenbergNode n in nodes)
             {
-               n.Compute();
+                n.Compute();
             }
             return nodes.ToList().ToArray();
-
-
-         
-
         }
-
-
 
         public void Link()
         {
@@ -169,9 +155,8 @@ namespace DH
             {
                 item.Link();
             }
-         
-         
         }
+
         public bool ShouldCheck(int maxPathCnt)
         {
             return this.Models.Where(o => o.ModelType == 0).Count() > maxPathCnt;
@@ -187,7 +172,7 @@ namespace DH
                 m.Delete();
                 //   m.AcceptChanges();
             }
-           // this.Models.AcceptChanges();
+            // this.Models.AcceptChanges();
         }
 
         //double angle = 0;                // Angle variable for animation
@@ -205,13 +190,12 @@ namespace DH
 
                 foreach (JointsRow j in joints) j.Animate();
 
-               // joints = null;
+                // joints = null;
             }
 
-           // models = null;
+            // models = null;
         }
 
-        #endregion
-
+        #endregion MODELS
     }
 }

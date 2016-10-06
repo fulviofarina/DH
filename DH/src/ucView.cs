@@ -6,79 +6,67 @@ using System.Windows.Forms;
 using Accord.Controls;
 using Accord.Math.Kinematics;
 
-
-
 namespace DH
 {
     public partial class ucView : UserControl
     {
+        /*
+         public void prueba()
+         {
+             RenderWindow window = null;
+             Root root = null;
 
-       /*
-        public void prueba()
-        {
-            RenderWindow window = null;
-            Root root = null;
+             IConfigurationManager ConfigurationManager =  ConfigurationManagerFactory.CreateDefault();
 
-            IConfigurationManager ConfigurationManager =  ConfigurationManagerFactory.CreateDefault();
+             string glog = "Game1.log";
+             root = new Root(glog);
 
-            string glog = "Game1.log";
-            root = new Root(glog);
-          
-            // ConfigurationManager = glog;
-     //       ConfigurationManager.RestoreConfiguration(root);
-       //     ConfigurationManager.RestoreConfiguration(root);
-           // ConfigurationManager.SaveConfiguration(root, "DirectX9");
-          //      if (ConfigurationManager.ShowConfigDialog(root))
-                {
+             // ConfigurationManager = glog;
+      //       ConfigurationManager.RestoreConfiguration(root);
+        //     ConfigurationManager.RestoreConfiguration(root);
+            // ConfigurationManager.SaveConfiguration(root, "DirectX9");
+           //      if (ConfigurationManager.ShowConfigDialog(root))
+                 {
+                 //after
 
-               
-                
-                //after
-                  
-                   root.RenderSystem = new Axiom.RenderSystems.DirectX9.D3DRenderSystem();
-                //l
-                window = root.Initialize(true);
-                ResourceGroupManager.Instance.AddResourceLocation("media", "Folder", true);
+                    root.RenderSystem = new Axiom.RenderSystems.DirectX9.D3DRenderSystem();
+                 //l
+                 window = root.Initialize(true);
+                 ResourceGroupManager.Instance.AddResourceLocation("media", "Folder", true);
 
-                    SceneManager scene = root.CreateSceneManager(SceneType.Generic);
-                    Camera camera = scene.CreateCamera("cam1");
-                    Viewport viewport = window.AddViewport(camera);
+                     SceneManager scene = root.CreateSceneManager(SceneType.Generic);
+                     Camera camera = scene.CreateCamera("cam1");
+                     Viewport viewport = window.AddViewport(camera);
 
-                    TextureManager.Instance.DefaultMipmapCount = 5;
-                    ResourceGroupManager.Instance.InitializeAllResourceGroups();
+                     TextureManager.Instance.DefaultMipmapCount = 5;
+                     ResourceGroupManager.Instance.InitializeAllResourceGroups();
 
-                    Entity penguin = scene.CreateEntity("bob", "ogrehead.mesh");
-                    SceneNode penguinNode = scene.RootSceneNode.CreateChildSceneNode();
-                    penguinNode.AttachObject(penguin);
+                     Entity penguin = scene.CreateEntity("bob", "ogrehead.mesh");
+                     SceneNode penguinNode = scene.RootSceneNode.CreateChildSceneNode();
+                     penguinNode.AttachObject(penguin);
 
+                 Entity penguin2 = scene.CreateEntity("bob2", "ogrehead.mesh");
+                 SceneNode penguinNode2 = penguinNode.CreateChildSceneNode("yoyo", new Vector3(0,150,1000));
+                      penguinNode2.AttachObject(penguin2);
 
-                Entity penguin2 = scene.CreateEntity("bob2", "ogrehead.mesh");
-                SceneNode penguinNode2 = penguinNode.CreateChildSceneNode("yoyo", new Vector3(0,150,1000));
-                     penguinNode2.AttachObject(penguin2);
+                 //   ConfigurationManager.SaveConfiguration(root);
+                 //   ConfigurationManager.SaveConfiguration(root);
 
-                //   ConfigurationManager.SaveConfiguration(root);
-                //   ConfigurationManager.SaveConfiguration(root);
+             //    for (int i = 0; i < 300; i++)
+                 {
+                     camera.Move(new Vector3(0, 0, 300));
+                     camera.LookAt(penguin2.BoundingBox.Center);
 
+                    // root.AddSceneManagerFactory()
+                    // root.StartRendering();
+                    root.RenderOneFrame();
+                 }
+                 }
+               //  Console.Write("Press [Enter] to exit.");
+               //  Console.ReadLine();
+         }
 
-            //    for (int i = 0; i < 300; i++)
-                {
-                    camera.Move(new Vector3(0, 0, 300));
-                    camera.LookAt(penguin2.BoundingBox.Center);
-                   
-                   // root.AddSceneManagerFactory()
-                   // root.StartRendering();
-                   root.RenderOneFrame();
-                }
-
-                }
-              //  Console.Write("Press [Enter] to exit.");
-              //  Console.ReadLine();
-          
-           
-
-        }
-
-        */
+         */
 
         private IList<PictureBox> pics = new List<PictureBox>();
         private IList<PictureBox> Maxpics = new List<PictureBox>();

@@ -55,7 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Another\Another.xaml">
+    <Page Include="Another.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -66,11 +66,12 @@
     <Compile Include="Another\Another.cs" />
     <Compile Include="Another\Another.Animation.cs" />
     <Compile Include="Another\Another.Engine.cs" />
+    <Compile Include="Another\IAnother.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Another\Another.xaml.cs">
+    <Compile Include="Another.xaml.cs">
       <DependentUpon>Another.xaml</DependentUpon>
     </Compile>
     <Compile Include="Cube.xaml.cs">
@@ -96,7 +97,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Another\Another.Classes.cs" />
+    <Compile Include="Another\Another.Engine.Classes.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

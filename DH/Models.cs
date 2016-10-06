@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Accord.Math;
@@ -9,14 +8,12 @@ namespace DH
 {
     public partial class db
     {
-   
-
         public partial class ModelsRow
         {
             private DenavitHartenbergModel model;
             private DenavitHartenbergNode arm;
             private Vector4 vector;
-           
+
             public DenavitHartenbergNode Arm
             {
                 get

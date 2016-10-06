@@ -71,15 +71,13 @@ namespace DH
             InitializeComponent();
         }
 
-
         #region calledOnce Initializers
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             ucView = new ucView();
             ucView.Dock = DockStyle.Fill;
             sC.Panel2.Controls.Add(ucView);
-
-          
 
             fillData(sender, e);
 
@@ -95,7 +93,6 @@ namespace DH
             // timer1.Enabled = true;
         }
 
-
         /// <summary>
         /// Makes the first rows that the Database must have to start
         /// </summary>
@@ -109,9 +106,8 @@ namespace DH
                 currentModel = this.db.Models.MakeAModel(1);
                 this.saveItems(sender, e);
             }
-          //  else currentModel = this.db.Models.FirstOrDefault();
+            //  else currentModel = this.db.Models.FirstOrDefault();
 
-                       
             //find current EndPointPosition
             basePosition = this.db.Models.FirstOrDefault(o => o.ModelType == -1);
             if (basePosition == null)
@@ -119,8 +115,6 @@ namespace DH
                 basePosition = this.db.Models.MakeAModel(-1);
                 this.saveItems(sender, e);
             }
-
-        
         }
 
         /// <summary>
@@ -137,9 +131,8 @@ namespace DH
             this.dgv_RowHeaderMouseClick(sender, k);
             sender = this.jointsDataGridView;
             this.dgv_RowHeaderMouseClick(sender, k);
-         //   return sender;
+            //   return sender;
         }
-
 
         /// <summary>
         /// Fill the tables with data from the SQL database
@@ -149,7 +142,7 @@ namespace DH
         private void fillData(object sender, EventArgs e)
         {
             // Start the animation
-          
+
             // TODO: This line of code loads data into the 'db.Models' table. You can move, or remove it, as needed.
             this.modelsTableAdapter.Fill(this.db.Models);
             // TODO: This line of code loads data into the 'db.Joints' table. You can move, or remove it, as needed.
@@ -158,9 +151,7 @@ namespace DH
             this.factorsTableAdapter.Fill(this.db.Factors);
         }
 
-        #endregion
-
-
+        #endregion calledOnce Initializers
 
         /// <summary>
         /// Establishes all the binginds Sources links
@@ -198,7 +189,6 @@ namespace DH
 
         #region buttons Model/Animate
 
-
         // Pause/Start button
         /// <summary>
         /// Button to Animate
@@ -211,7 +201,6 @@ namespace DH
             saveItems(sender, e);
             timer1.Enabled = !timer1.Enabled;
         }
-
 
         /// <summary>
         /// Timer that performs the actual animation when Enambled
@@ -284,7 +273,6 @@ namespace DH
             refreshBtn_Click(sender, e);
         }
 
-
         /// <summary>
         /// Adds a model or a joint
         /// </summary>
@@ -292,11 +280,10 @@ namespace DH
         /// <param name="e"></param>
         private void addBtn_Click(object sender, EventArgs e)
         {
-         //   bool makeModel = sender == modelBtn;
+            //   bool makeModel = sender == modelBtn;
             if (sender == modelBtn)
             {
-               currentModel = this.db.Models.MakeAModel(1);
-             
+                currentModel = this.db.Models.MakeAModel(1);
             }
             else if (sender == jointBtn)
             {
@@ -304,9 +291,7 @@ namespace DH
                 this.saveItems(sender, e);
                 this.db.Freedom.MakeAFreedom(currentJoint.ID);
                 this.db.Factors.MakeAFactor(currentJoint.ID);
-               
             }
-
 
             this.saveItems(sender, e);
 
@@ -334,7 +319,6 @@ namespace DH
             ucView.DisplayCinema(ref images);
         }
 
-
         /// <summary>
         /// cleans the end-point points
         /// </summary>
@@ -349,7 +333,6 @@ namespace DH
             refreshBtn_Click(sender, e);
         }
 
-
         /// <summary>
         /// refreshes the nodes and images
         /// </summary>
@@ -362,16 +345,10 @@ namespace DH
 
             //compute all nodes
             nodes = this.db.ComputeNodes();
-            
+
             //draw
             ucView.Draw(nodes);
-
-
-
-
-         
         }
-
 
         /// <summary>
         /// saves data into the SQL database
@@ -429,7 +406,6 @@ namespace DH
             refreshBtn_Click(sender, e);
         }
 
-
         /// <summary>
         /// Resume the animation when finished editing the cell
         /// </summary>
@@ -444,7 +420,7 @@ namespace DH
 
         private void button2_Click(object sender, EventArgs e)
         {
-         //   ucView.prueba();
+            //   ucView.prueba();
         }
     }
 }
