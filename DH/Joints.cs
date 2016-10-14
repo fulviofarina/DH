@@ -7,51 +7,24 @@ namespace DH
 {
     public partial class db
     {
-        public partial class FreedomDataTable
-        {
-            public void MakeAFreedom(int jointID)
-            {
-                db.FreedomRow fre = this.NewFreedomRow();
-                fre.JointID = jointID;
-                fre.r = false;
-                fre.d = false;
-                fre.theta = false;
-                fre.alpha = false;
-                this.AddFreedomRow(fre);
-            }
-        }
+        private static double factor = Math.PI * (1 / 180);
 
-        public partial class FactorsDataTable
-        {
-            public void MakeAFactor(int jointID)
-            {
-                db.FactorsRow fre = this.NewFactorsRow();
-                fre.JointID = jointID;
-                fre.r = 0.001;
-                fre.d = 0.001;
-                fre.theta = 3.6;
-                fre.alpha = 3.6;
-                this.AddFactorsRow(fre);
-            }
-        }
 
         public partial class JointsRow
         {
-            private DenavitHartenbergJoint joint;
-            private const double factor = Math.PI * 2 / 360;
+          //  private DenavitHartenbergJoint joint;
 
+          
             public DenavitHartenbergJoint Joint
             {
                 get
                 {
-                    joint = new DenavitHartenbergJoint(alpha * factor, theta * factor, r, d);
-                    return joint;
+                   // joint = null;
+                   return  new DenavitHartenbergJoint(alpha * factor, theta * factor, r, d);
+                  //  return joint;
                 }
 
-                set
-                {
-                    joint = value;
-                }
+               
             }
 
             public void Animate()
@@ -89,9 +62,9 @@ namespace DH
 
         public partial class JointsDataTable
         {
-            public DH.db.JointsRow MakeAJoint(ref ModelsRow m)
+            public JointsRow MakeAJoint(ref ModelsRow m)
             {
-                DH.db.JointsRow j = this.NewJointsRow();
+                JointsRow j = this.NewJointsRow();
 
                 j.ModelID = m.ID;
                 j.Nr = m.GetJointsRows().Count() + 1;

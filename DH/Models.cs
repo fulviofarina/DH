@@ -20,10 +20,7 @@ namespace DH
                 {
                     return arm;
                 }
-                set
-                {
-                    arm = value;
-                }
+              
             }
 
             public Vector4 Vector
@@ -37,7 +34,8 @@ namespace DH
 
             public void Link()
             {
-                vector = new Vector4((float)this.x, (float)this.y, (float)this.z, 1);
+
+                vector = new Vector4((float)x, (float)y, (float)z, 1);
 
                 Vector3 v = new Vector3(vector.X, vector.Y, vector.Z);
                 model = new DenavitHartenbergModel(v);
@@ -46,13 +44,11 @@ namespace DH
                 // Create the model combinator from the parent model
                 arm = new DenavitHartenbergNode(model);
 
-                //  m.RefreshPosition();
-
-                IEnumerable<DH.db.JointsRow> joints = GetJointsRows().Where(o => o.Show);
+                IEnumerable<JointsRow> joints = GetJointsRows().Where(o => o.Show);
                 joints = joints.OrderBy(p => p.Nr).ToList();
 
                 model.Joints.Clear();
-                foreach (DH.db.JointsRow j in joints)
+                foreach (JointsRow j in joints)
                 {
                     model.Joints.Add(j.Joint);
                 }
@@ -69,19 +65,19 @@ namespace DH
             /// </summary>
             /// <param name="modelType">The ModelType to associate</param>
             /// <returns></returns>
-            public DH.db.ModelsRow MakeAModel(int modelType)
+            public ModelsRow MakeAModel(int modelType)
             {
-                DH.db.ModelsRow j = this.NewModelsRow();
+                ModelsRow mod = this.NewModelsRow();
 
-                j.x = 0;
-                j.y = 0;
-                j.z = 0;
+                mod.x = 0;
+                mod.y = 0;
+                mod.z = 0;
 
-                j.ModelType = modelType;
-                j.Show = true;
+                mod.ModelType = modelType;
+                mod.Show = true;
 
-                this.AddModelsRow(j);
-                return j;
+                this.AddModelsRow(mod);
+                return mod;
             }
         }
     }

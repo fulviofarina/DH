@@ -18,6 +18,9 @@ namespace DH
         /// <returns>Array of images</returns>
         public IEnumerable<Image> GetImages()
         {
+
+            this.imagesTA.Fill(this.Images);
+
             Func<ImagesRow, Image> conv = o =>
             {
                 return byteArrayToImg(o.PlaneXY);

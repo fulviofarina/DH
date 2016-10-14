@@ -9,8 +9,15 @@ namespace wpfViewer
 {
     public partial class Another
     {
+        /// <summary>
+        /// for animation
+        /// </summary>
         public Timer _timer;
-        private readonly List<ModelVisual3D> _models = new List<ModelVisual3D>();
+
+     
+        /// <summary>
+        /// used in animation
+        /// </summary>
         private double _angle;
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)

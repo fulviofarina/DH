@@ -55,6 +55,8 @@
       <DependentUpon>db.xsd</DependentUpon>
     </Compile>
     <Compile Include="Functions.cs" />
+    <Compile Include="Adapter.cs" />
+    <Compile Include="Others.cs" />
     <Compile Include="Joints.cs" />
     <Compile Include="Models.cs" />
     <Compile Include="src\DHForm.cs">

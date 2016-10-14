@@ -13,12 +13,36 @@ namespace wpfViewer
 
 
 
+
+
+            //  interf.
+
+        }
+        public void Do(Point3D firstPoint)
+        {
+          
+
+            ModelVisual3D m = CreateSphere(firstPoint, 6, 10, 10, Colors.AliceBlue);
+            _models.Add(m);
+
+       
+
+           
+        }
+        public void ADD()
+        {
+            _models.ForEach(x => mainViewport.Children.Add(x));
+        }
+
+        public void nothing()
+        {
+            //set interface
             IAnother interf = this;
 
             Point3D firstPoint = new Point3D(0, 0, 50);
             Point3D secondPoint = new Point3D(0, 0, 10);
 
-      
+
             var midPoint = firstPoint - secondPoint;
             var thirdpoint = midPoint - secondPoint;
 
@@ -50,9 +74,7 @@ namespace wpfViewer
             _timer = new Timer(10);
             _timer.Elapsed += TimerElapsed;
             _timer.Enabled = true;
-
-            //  interf.
-
         }
+
     }
 }

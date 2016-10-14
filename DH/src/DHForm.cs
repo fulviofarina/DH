@@ -75,11 +75,15 @@ namespace DH
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+
+            this.db.CreateAdapters();
+
+            this.db.FillData();
+
+
             ucView = new ucView();
             ucView.Dock = DockStyle.Fill;
             sC.Panel2.Controls.Add(ucView);
-
-            fillData(sender, e);
 
             getCurrentItems(sender, e);
 
@@ -129,27 +133,12 @@ namespace DH
             DataGridViewCellMouseEventArgs k = new DataGridViewCellMouseEventArgs(-1, 0, 0, 0, mouse);
             sender = this.modelsDataGridView;
             this.dgv_RowHeaderMouseClick(sender, k);
-            sender = this.jointsDataGridView;
+            sender = this.jointsDGV;
             this.dgv_RowHeaderMouseClick(sender, k);
             //   return sender;
         }
 
-        /// <summary>
-        /// Fill the tables with data from the SQL database
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fillData(object sender, EventArgs e)
-        {
-            // Start the animation
-
-            // TODO: This line of code loads data into the 'db.Models' table. You can move, or remove it, as needed.
-            this.modelsTableAdapter.Fill(this.db.Models);
-            // TODO: This line of code loads data into the 'db.Joints' table. You can move, or remove it, as needed.
-            this.freedomTableAdapter.Fill(this.db.Freedom);
-            this.jointsTableAdapter.Fill(this.db.Joints);
-            this.factorsTableAdapter.Fill(this.db.Factors);
-        }
+      
 
         #endregion calledOnce Initializers
 
@@ -309,7 +298,7 @@ namespace DH
         /// <param name="e"></param>
         private void cineBtn_Click(object sender, EventArgs e)
         {
-            this.imagesTA.Fill(this.db.Images);
+           
 
             //GET AN AARAY OF IMAGES
             // images = new List<System.Drawing.Image>();
@@ -364,7 +353,8 @@ namespace DH
             {
                 bs.EndEdit();
             }
-            this.tableAdapterManager.UpdateAll(this.db);
+
+            this.db.Save();
         }
 
         #endregion buttons database
@@ -398,7 +388,7 @@ namespace DH
             DataRowView v = dgvr.DataBoundItem as DataRowView;
 
             if (dgv.Equals(this.modelsDataGridView)) currentModel = v.Row as db.ModelsRow;
-            else if (dgv.Equals(this.jointsDataGridView)) currentJoint = v.Row as db.JointsRow;
+            else if (dgv.Equals(this.jointsDGV)) currentJoint = v.Row as db.JointsRow;
 
             //link binding sources of FORM
             setBindingSources(sender, e);
@@ -421,6 +411,34 @@ namespace DH
         private void button2_Click(object sender, EventArgs e)
         {
             //   ucView.prueba();
+        }
+
+        private void jointsDGV_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dgv = sender as DataGridView;
+
+            DataGridViewRow dgvr = dgv.Rows[e.RowIndex];
+
+            if (dgvr == null) return;
+
+            DataRowView v = dgvr.DataBoundItem as DataRowView;
+
+            if (dgv.Equals(this.modelsDataGridView))
+            {
+               // currentModel = v.Row as db.ModelsRow;
+
+            }
+            else if (dgv.Equals(this.jointsDGV))
+            {
+                db.JointsRow j = v.Row as db.JointsRow;
+
+                string field = dgv.Columns[e.ColumnIndex].DataPropertyName;
+
+                db.FreedomRow f = j.FreedomRow;
+                bool newvalue = !f.Field<bool>(field);
+                f.SetField<bool>(field, newvalue );
+
+               }
         }
     }
 }

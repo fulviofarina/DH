@@ -2,10 +2,16 @@
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Timers;
+using System.Collections.Generic;
+
 namespace wpfViewer
 {
     public partial class Another : IAnother
     {
+
+        //stores list of models
+        private readonly List<ModelVisual3D> _models = new List<ModelVisual3D>();
+
 
         public void Joint(Point3D firstPoint, Point3D secondPoint)
         {
