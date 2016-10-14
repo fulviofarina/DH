@@ -1,16 +1,7 @@
-﻿using System;
-using System.Linq;
-using Accord.Math;
-using Accord.Math.Kinematics;
-
-namespace DH
+﻿namespace DH
 {
     public partial class db
     {
-
- 
-
-
         public partial class FreedomDataTable
         {
             public void MakeAFreedom(int jointID)
@@ -38,7 +29,5 @@ namespace DH
                 this.AddFactorsRow(fa);
             }
         }
-
-    
     }
 }

@@ -54,8 +54,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>db.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Functions.Models.cs" />
+    <Compile Include="Functions.Images.cs" />
     <Compile Include="Functions.cs" />
-    <Compile Include="Adapter.cs" />
+    <Compile Include="TableAdapter.cs" />
     <Compile Include="Others.cs" />
     <Compile Include="Joints.cs" />
     <Compile Include="Models.cs" />

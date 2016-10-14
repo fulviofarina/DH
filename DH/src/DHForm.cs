@@ -64,6 +64,7 @@ namespace DH
         private int maxPathCnt = 10;
 
         private ucView ucView = null;
+
         private DenavitHartenbergNode[] nodes = null;
 
         public DHForm()
@@ -75,11 +76,9 @@ namespace DH
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
             this.db.CreateAdapters();
 
             this.db.FillData();
-
 
             ucView = new ucView();
             ucView.Dock = DockStyle.Fill;
@@ -137,8 +136,6 @@ namespace DH
             this.dgv_RowHeaderMouseClick(sender, k);
             //   return sender;
         }
-
-      
 
         #endregion calledOnce Initializers
 
@@ -225,9 +222,7 @@ namespace DH
             {
                 IEnumerable<object> images = ucView.SavePics();
                 this.db.CheckIteration(ref images);
-                images = null;
-
-                this.db.CleanPath();
+                 this.db.CleanPath();
                 saveItems(sender, e);
                 this.db.Images.Clear();
             }
@@ -298,8 +293,6 @@ namespace DH
         /// <param name="e"></param>
         private void cineBtn_Click(object sender, EventArgs e)
         {
-           
-
             //GET AN AARAY OF IMAGES
             // images = new List<System.Drawing.Image>();
 
@@ -413,7 +406,7 @@ namespace DH
             //   ucView.prueba();
         }
 
-        private void jointsDGV_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dGV_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dgv = sender as DataGridView;
 
@@ -425,20 +418,25 @@ namespace DH
 
             if (dgv.Equals(this.modelsDataGridView))
             {
-               // currentModel = v.Row as db.ModelsRow;
+                
+                //nothing implemented
+
 
             }
             else if (dgv.Equals(this.jointsDGV))
             {
                 db.JointsRow j = v.Row as db.JointsRow;
 
+                //r, alpha, theta or d, but no other cell click
                 string field = dgv.Columns[e.ColumnIndex].DataPropertyName;
 
+                if (!this.db.Freedom.Columns.Contains(field)) return;
+
+               
                 db.FreedomRow f = j.FreedomRow;
                 bool newvalue = !f.Field<bool>(field);
-                f.SetField<bool>(field, newvalue );
-
-               }
+                f.SetField<bool>(field, newvalue);
+            }
         }
     }
 }

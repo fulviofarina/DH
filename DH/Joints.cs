@@ -7,24 +7,21 @@ namespace DH
 {
     public partial class db
     {
-        private static double factor = Math.PI * (1 / 180);
-
+       
 
         public partial class JointsRow
         {
-          //  private DenavitHartenbergJoint joint;
+            //  private DenavitHartenbergJoint joint;
 
-          
             public DenavitHartenbergJoint Joint
             {
                 get
                 {
-                   // joint = null;
-                   return  new DenavitHartenbergJoint(alpha * factor, theta * factor, r, d);
-                  //  return joint;
+                     double factor =  (Math.PI / 180);
+                    // joint = null;
+                    return new DenavitHartenbergJoint(alpha * factor, theta * factor, r, d);
+                    //  return joint;
                 }
-
-               
             }
 
             public void Animate()

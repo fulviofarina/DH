@@ -20,7 +20,6 @@ namespace DH
                 {
                     return arm;
                 }
-              
             }
 
             public Vector4 Vector
@@ -34,7 +33,6 @@ namespace DH
 
             public void Link()
             {
-
                 vector = new Vector4((float)x, (float)y, (float)z, 1);
 
                 Vector3 v = new Vector3(vector.X, vector.Y, vector.Z);
