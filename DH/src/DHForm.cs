@@ -40,6 +40,8 @@ using System.Linq;
 using System.Windows.Forms;
 using Accord.Math.Kinematics;
 
+using wpfViewer;
+
 namespace DH
 {
     /// <summary>
@@ -70,6 +72,12 @@ namespace DH
         public DHForm()
         {
             InitializeComponent();
+
+            ucView = new ucView();
+            ucView.Dock = DockStyle.Fill;
+
+            a = new Another();
+
         }
 
         #region calledOnce Initializers
@@ -80,9 +88,19 @@ namespace DH
 
             this.db.FillData();
 
-            ucView = new ucView();
-            ucView.Dock = DockStyle.Fill;
+
+        
+
+
+
+
+           
             sC.Panel2.Controls.Add(ucView);
+
+
+          
+         //   a.Show();
+           // IAnother inter = a;
 
             getCurrentItems(sender, e);
 
@@ -93,9 +111,15 @@ namespace DH
 
             timer1.Interval = Convert.ToInt32(timeBox.Text);
 
+
+
+
+            a.Show();
+
+
             // timer1.Enabled = true;
         }
-
+        private Another a;
         /// <summary>
         /// Makes the first rows that the Database must have to start
         /// </summary>
@@ -328,10 +352,42 @@ namespace DH
             //compute all nodes
             nodes = this.db.ComputeNodes();
 
+
+            TestAnother();
             //draw
             ucView.Draw(nodes);
         }
+        public void TestAnother()
+        {
+            foreach (DenavitHartenbergNode n in nodes)
+            {
 
+                IList<DenavitHartenbergJoint> js = n.Model.Joints;
+                int o = 0;
+                for (o=0; o<js.Count-1;o++)
+                {
+                    DenavitHartenbergJoint j = js[o];
+                    double x = j.Position.X;
+                    double y = j.Position.Y;
+                    double z = j.Position.Z;
+
+                    double x2 = js[o+1].Position.X;
+                    double y2 = js[o + 1].Position.Y;
+                    double z2 = js[o + 1].Position.Z;
+
+                    System.Windows.Media.Media3D.Point3D p1 =  new System.Windows.Media.Media3D.Point3D(x, y, z);
+                    System.Windows.Media.Media3D.Point3D p2 = new System.Windows.Media.Media3D.Point3D(x2, y2, z2);
+
+                    a.Joint(p1,p2);
+                }
+
+            }
+
+
+            a.ADD();
+
+            a.UpdateLayout();
+        }
         /// <summary>
         /// saves data into the SQL database
         /// </summary>

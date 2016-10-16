@@ -739,7 +739,7 @@
             this.refreshBtn.TabIndex = 3;
             this.refreshBtn.Text = "refresh";
             this.refreshBtn.UseVisualStyleBackColor = true;
-            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
+            this.refreshBtn.Click += new System.EventHandler(this.button1_Click);
             // 
             // jointsBindingNavigator
             // 
@@ -913,7 +913,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(35, 41);
+            this.button2.Location = new System.Drawing.Point(9, 27);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(97, 30);

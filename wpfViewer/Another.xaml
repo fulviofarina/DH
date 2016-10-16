@@ -6,22 +6,74 @@
    xmlns:local = "clr-namespace:wpfViewer"
    mc:Ignorable = "d" Title = "Another" Height = "623.325" Width = "619.716">
 
-        <StackPanel>
-            <Viewport3D Name="mainViewport" ClipToBounds="True" HorizontalAlignment="Stretch" Height="300">
-                <Viewport3D.Camera>
-                    <PerspectiveCamera
+    <StackPanel>
+        <Viewport3D Name="mainViewport" ClipToBounds="True" HorizontalAlignment="Stretch" Height="415" Margin="0,0,0.161,0">
+            <Viewport3D.Camera>
+                <PerspectiveCamera 
                   LookDirection="0,0,-20"
                   UpDirection="0,1,0"
                   Position="0,0,100" />
-                </Viewport3D.Camera>
-                <ModelVisual3D>
-                    <ModelVisual3D.Content>
-                        <Model3DGroup x:Name="group3d">
+            </Viewport3D.Camera>
+            <ModelVisual3D>
+                <ModelVisual3D.Content>
+                    <Model3DGroup x:Name="group3d">
 
-                            <SpotLight Position="30,30,30" x:Name="mySpotLight" Color="Yellow"  InnerConeAngle="100" OuterConeAngle="1000" Range="100" />
-                        </Model3DGroup>
-                    </ModelVisual3D.Content>
-                </ModelVisual3D>
-            </Viewport3D>
-        </StackPanel>
+                        <SpotLight Position="30,30,30" x:Name="mySpotLight" Color="Yellow"  InnerConeAngle="100" OuterConeAngle="1000" Range="100" />
+                    </Model3DGroup>
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+        </Viewport3D>
+     
+        <Slider Height = "23"
+          x:Name = "slider2"
+         VerticalAlignment = "Top"
+         Maximum = "360"
+        
+                   Value = "{ Binding ElementName = mainViewport, Path= Camera.FieldOfView }" 
+        Margin="0,0,344.161,0" HorizontalAlignment="Right" Width="173" />
+      
+        <Slider Height = "23"
+          x:Name = "slider5"
+         VerticalAlignment = "Top"
+         Maximum = "360"
+           Value = "{ Binding  ElementName = mainViewport, Path= Camera.UpDirection.X }" 
+        Margin="0,0,344.161,0" HorizontalAlignment="Right" Width="173" />
+        <Slider Height = "23"
+          x:Name = "slider3"
+         VerticalAlignment = "Top"
+         Maximum = "360"
+         Value = "{ Binding ElementName = mainViewport, Path= Camera.UpDirection.Y }" 
+        Margin="0,0,344.161,0" HorizontalAlignment="Right" Width="173" />
+        <Slider Height = "23"
+          x:Name = "slider6"
+         VerticalAlignment = "Top"
+         Maximum = "360"
+           Value = "{ Binding  ElementName = mainViewport, Path= Camera.UpDirection.Z }" 
+        Margin="0,0,344.161,0" HorizontalAlignment="Right" Width="173" />
+        <Slider Height = "23"
+          x:Name = "slider"
+         VerticalAlignment = "Top"
+         Maximum = "360"
+           Value = "{ Binding  ElementName = mainViewport, Path= Camera.Position.X }" 
+        Margin="0,0,344.161,0" HorizontalAlignment="Right" Width="173" />
+        <Slider Height = "23"
+          x:Name = "slider7"
+         VerticalAlignment = "Top"
+         Maximum = "360"
+           Value = "{ Binding  ElementName = mainViewport, Path= Camera.Position.Y }" 
+        Margin="0,0,344.161,0" HorizontalAlignment="Right" Width="173" />
+        <Slider Height = "23"
+          x:Name = "slider8"
+         VerticalAlignment = "Top"
+         Maximum = "360"
+           Value = "{ Binding  ElementName = mainViewport, Path= Camera.Position.Z }" 
+        Margin="0,0,344.161,0" HorizontalAlignment="Right" Width="173" />
+        <Slider Height = "23"
+          x:Name = "slider4"
+         VerticalAlignment = "Top"
+         Maximum = "360"
+         Value = "{ Binding ElementName = mainViewport, Path= Camera.LookDirection.Y }" 
+        Margin="0,0,344.161,0" HorizontalAlignment="Right" Width="173" />
+
+    </StackPanel>
 </Window> 

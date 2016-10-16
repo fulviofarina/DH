@@ -36,8 +36,11 @@
     <Reference Include="Accord.Controls">
       <HintPath>.\Accord.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +50,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="db.Designer.cs">
@@ -122,6 +126,10 @@
     <ProjectReference Include="..\..\framework\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
       <Name>Accord.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\wpfViewer\wpfViewer.csproj">
+      <Project>{ad805399-f760-4397-a029-5470371a0ed7}</Project>
+      <Name>wpfViewer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

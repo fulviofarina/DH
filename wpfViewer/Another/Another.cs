@@ -21,20 +21,20 @@ namespace wpfViewer
             var midPoint = firstPoint - secondPoint;
 
 
-            ModelVisual3D m = CreateSphere(firstPoint, 6, 10, 10, Colors.AliceBlue);
+            ModelVisual3D m = CreateSphere(firstPoint, 2, 10, 10, Colors.YellowGreen);
             _models.Add(m);
 
-            m = CreateSphere(secondPoint, 6, 10, 10, Colors.AliceBlue);
+            m = CreateSphere(secondPoint, 2, 10, 10, Colors.YellowGreen);
             _models.Add(m);
 
-            MaterialGroup mgr = GetSurfaceMaterial(Colors.Red);
-            m = GetCylinder(mgr, secondPoint, 3, midPoint.Z);
+        //    MaterialGroup mgr = GetSurfaceMaterial(Colors.Red);
+         //   m = GetCylinder(mgr, secondPoint, 3, midPoint.Z);
 
             _models.Add(m);
 
 
 
-            _models.ForEach(x => mainViewport.Children.Add(x));
+         //   _models.ForEach(x => mainViewport.Children.Add(x));
 
 
           
