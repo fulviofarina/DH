@@ -41,6 +41,7 @@ using System.Windows.Forms;
 using Accord.Math.Kinematics;
 
 using wpfViewer;
+using static DH.db;
 
 namespace DH
 {
@@ -59,9 +60,9 @@ namespace DH
         private DenavitHartenbergModel model_tgripper;  // The model left gripper
         private DenavitHartenbergModel model_bgripper;  // The model right gripper
 
-        private DH.db.ModelsRow currentModel = null;
-        private DH.db.ModelsRow basePosition = null;
-        private DH.db.JointsRow currentJoint = null;
+        private ModelsRow currentModel = null;
+        private ModelsRow basePosition = null;
+        private JointsRow currentJoint = null;
 
         private int maxPathCnt = 10;
 
